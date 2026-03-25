@@ -1,0 +1,677 @@
+{
+  "_meta": {
+    "brand": "HVAC Repair Chief",
+    "slug": "hvac-repair-chief",
+    "version": "1.0.0",
+    "generatedAt": "2026-03-25",
+    "colorMode": "LIGHT",
+    "sourceFiles": [
+      "src/config/brand.ts",
+      "src/config/services.ts",
+      "src/config/locations/boca-raton.ts",
+      "src/config/locations/fort-lauderdale.ts",
+      "website-factory/registry/brand-designs.json",
+      "website-factory/registry/brands-index.json"
+    ]
+  },
+
+  "identity": {
+    "name": "HVAC Repair Chief",
+    "legalName": "HVAC Repair Chief LLC",
+    "tagline": "Commanding Comfort Across South Florida",
+    "category": "HVAC",
+    "niche": "hvac",
+    "aesthetic": "Command Authority",
+    "tone": "Authoritative, leader, chief-level expertise",
+    "voice": "professional",
+    "yearsInBusiness": 12,
+    "rating": 4.8,
+    "reviewCount": 85,
+    "license": "FL State Licensed",
+    "insurance": "Fully Insured",
+    "emergencyLabel": "24/7 Emergency HVAC",
+    "turnaroundLabel": "Same-Day Repairs",
+    "hours": "Mon-Sat: 7AM-8PM, Sun: 9AM-5PM",
+    "email": "info@chiefhvacrepair.com",
+    "website": "https://hvac-repair-chief.vercel.app"
+  },
+
+  "locations": [
+    {
+      "city": "Boca Raton",
+      "slug": "boca-raton",
+      "phone": "+1 561-556-4233",
+      "address": "Boca Raton, FL, United States",
+      "zip": "33431",
+      "coordinates": { "lat": 26.3683, "lng": -80.1289 },
+      "cid": "17925648923847561234",
+      "cidUrl": "https://maps.app.goo.gl/wsWn3z6uxaNSs3Lq8",
+      "mapUrl": "https://www.google.com/maps/place/HVAC+Repair+Chief/@26.3683,-80.1289,14z",
+      "serviceAreas": [
+        "Boca Raton",
+        "West Boca Raton",
+        "East Boca Raton",
+        "Deerfield Beach",
+        "Delray Beach",
+        "Highland Beach",
+        "Boca Del Mar",
+        "Sandalfoot Cove"
+      ],
+      "reviewHighlights": [
+        { "name": "Patricia K.", "service": "AC Repair", "rating": 5 },
+        { "name": "David R.", "service": "AC Installation", "rating": 5 },
+        { "name": "Maria S.", "service": "Maintenance Plans", "rating": 5 }
+      ]
+    },
+    {
+      "city": "Fort Lauderdale",
+      "slug": "fort-lauderdale",
+      "phone": "+1 954-601-7788",
+      "address": "Fort Lauderdale, FL, United States",
+      "zip": "33301",
+      "coordinates": { "lat": 26.1224, "lng": -80.1373 },
+      "cid": "12847563920184756312",
+      "cidUrl": "https://maps.app.goo.gl/HfkgX538Zovgn7xu5",
+      "mapUrl": "https://www.google.com/maps/place/HVAC+Repair+Chief/@26.1224,-80.1373,14z",
+      "serviceAreas": [
+        "Fort Lauderdale",
+        "Wilton Manors",
+        "Oakland Park",
+        "Lauderdale Lakes",
+        "Lauderhill",
+        "Plantation",
+        "Davie",
+        "Sunrise"
+      ],
+      "reviewHighlights": [
+        { "name": "James T.", "service": "Emergency HVAC", "rating": 5 },
+        { "name": "Linda W.", "service": "Duct Cleaning & Sealing", "rating": 5 },
+        { "name": "Carlos M.", "service": "AC Repair", "rating": 5 }
+      ]
+    }
+  ],
+
+  "services": [
+    {
+      "name": "AC Repair",
+      "slug": "ac-repair",
+      "icon": "snowflake",
+      "shortDescription": "Fast diagnosis and repair for central air conditioning systems, ductless mini-splits, and heat pumps.",
+      "processSteps": ["Diagnose", "Quote", "Repair", "Verify"],
+      "faqTopics": ["warm air causes", "repair speed", "repair vs. replace threshold"]
+    },
+    {
+      "name": "AC Installation",
+      "slug": "ac-installation",
+      "icon": "thermometer",
+      "shortDescription": "New AC system installation with proper load calculation, ductwork assessment, and energy-efficient equipment selection.",
+      "processSteps": ["Evaluate", "Design", "Install", "Commission"],
+      "faqTopics": ["installation timeline", "system sizing (Manual J)", "financing options"]
+    },
+    {
+      "name": "Heating Repair",
+      "slug": "heating-repair",
+      "icon": "flame",
+      "shortDescription": "Expert repair for heat pumps, electric furnaces, and heat strip systems.",
+      "processSteps": ["Inspect", "Identify", "Repair", "Confirm"],
+      "faqTopics": ["heat pump troubleshooting", "South Florida heating needs", "AC-to-heat reverse cycle"]
+    },
+    {
+      "name": "Duct Cleaning & Sealing",
+      "slug": "duct-cleaning-sealing",
+      "icon": "wind",
+      "shortDescription": "Professional ductwork inspection, cleaning, sanitization, and leak sealing.",
+      "processSteps": ["Assess", "Clean", "Treat", "Seal"],
+      "faqTopics": ["cleaning frequency", "health effects of dirty ducts", "energy waste from leaks"]
+    },
+    {
+      "name": "Maintenance Plans",
+      "slug": "maintenance-plans",
+      "icon": "calendar",
+      "shortDescription": "Seasonal tune-ups, priority scheduling, and extended equipment life.",
+      "processSteps": ["Enroll", "Schedule", "Tune Up", "Report"],
+      "faqTopics": ["tune-up scope (24-point)", "warranty maintenance requirements", "energy savings"]
+    },
+    {
+      "name": "Emergency HVAC",
+      "slug": "emergency-hvac",
+      "icon": "siren",
+      "shortDescription": "24/7 emergency response for complete AC failures, refrigerant leaks, and electrical faults.",
+      "processSteps": ["Call", "Arrive", "Stabilize", "Follow Up"],
+      "faqTopics": ["what qualifies as emergency", "emergency pricing", "response time"]
+    }
+  ],
+
+  "design": {
+    "heroLayout": 5,
+    "heroLayoutDescription": "Asymmetric grid with badge/rank-inspired layout",
+    "sectionOrder": ["hero", "services", "about", "reviews", "emergency-banner", "faq", "contact"],
+    "cardStyle": "rounded-md, double-border, hover:scale-101",
+    "animationFamily": "slide-up-stagger",
+    "navStyle": 1,
+    "differentiator": "Asymmetric hero with badge/rank-inspired layout. Steel blue + warm gold like a chief's insignia. Double-border cards. Badge/chevron decorative elements. Authoritative without being aggressive."
+  },
+
+  "typography": {
+    "displayFont": {
+      "family": "Bricolage Grotesque",
+      "source": "Google Fonts",
+      "weights": [400, 500, 600, 700, 800],
+      "usage": "h1, h2, h3, hero headlines, section titles, badge labels",
+      "cssImport": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap"
+    },
+    "bodyFont": {
+      "family": "Geist",
+      "source": "Vercel/next/font",
+      "weights": [400, 500, 600],
+      "usage": "body text, paragraphs, UI labels, nav links, form fields",
+      "cssImport": "next/font/local or https://cdn.jsdelivr.net/npm/geist@1/dist/fonts/geist-sans"
+    },
+    "scale": {
+      "h1": "clamp(2.5rem, 5vw, 4rem)",
+      "h2": "clamp(1.75rem, 3.5vw, 2.5rem)",
+      "h3": "clamp(1.25rem, 2.5vw, 1.75rem)",
+      "body": "1rem (16px)",
+      "small": "0.875rem (14px)",
+      "caption": "0.75rem (12px)"
+    }
+  },
+
+  "colors": {
+    "_note": "LIGHT mode colors. Primary from brands-index.json (L=0.62), NOT the dark brand.ts value (L=0.40).",
+    "primary": {
+      "value": "oklch(0.62 0.04 200)",
+      "lightness": 0.62,
+      "chroma": 0.04,
+      "hue": 200,
+      "hex_approx": "#7BA3B3",
+      "usage": "headers, nav active state, primary buttons, icon fills, section dividers"
+    },
+    "primaryDark": {
+      "value": "oklch(0.52 0.05 200)",
+      "usage": "hover states on primary elements, active nav, pressed buttons"
+    },
+    "primaryLight": {
+      "value": "oklch(0.72 0.03 200)",
+      "usage": "primary tint backgrounds, badge fills, subtle highlights"
+    },
+    "accent": {
+      "value": "oklch(0.66 0.12 60)",
+      "lightness": 0.66,
+      "chroma": 0.12,
+      "hue": 60,
+      "hex_approx": "#C4A44F",
+      "usage": "CTAs, trust badges, star ratings, decorative chevrons, gold insignia elements"
+    },
+    "accentDark": {
+      "value": "oklch(0.56 0.13 60)",
+      "usage": "hover on accent buttons, active gold elements"
+    },
+    "accentLight": {
+      "value": "oklch(0.76 0.08 60)",
+      "usage": "accent tint backgrounds, light gold washes, badge glow"
+    },
+    "background": {
+      "value": "oklch(0.975 0.003 200)",
+      "lightness": 0.975,
+      "usage": "page background, main content area"
+    },
+    "surface": {
+      "value": "oklch(0.96 0.004 200)",
+      "usage": "card backgrounds, elevated sections, alternating section bg"
+    },
+    "surfaceAlt": {
+      "value": "oklch(0.945 0.005 200)",
+      "usage": "secondary surface for deeper nesting, sidebar bg"
+    },
+    "text": {
+      "primary": "oklch(0.20 0.02 200)",
+      "secondary": "oklch(0.40 0.02 200)",
+      "muted": "oklch(0.55 0.01 200)",
+      "onPrimary": "oklch(0.98 0.002 200)",
+      "onAccent": "oklch(0.15 0.02 60)"
+    },
+    "border": {
+      "default": "oklch(0.85 0.01 200)",
+      "strong": "oklch(0.75 0.02 200)",
+      "accent": "oklch(0.66 0.12 60)"
+    },
+    "semantic": {
+      "success": "oklch(0.65 0.15 145)",
+      "warning": "oklch(0.70 0.15 80)",
+      "error": "oklch(0.60 0.20 25)",
+      "info": "oklch(0.62 0.04 200)"
+    }
+  },
+
+  "trustBadges": [
+    { "label": "FL State Licensed", "value": "HVAC Contractor License" },
+    { "label": "Fully Insured", "value": "Liability + Workers' Comp" },
+    { "label": "12+ Years", "value": "Serving South Florida" },
+    { "label": "4.8 Star Rating", "value": "85+ Verified Reviews" }
+  ],
+
+  "contentDirection": {
+    "h1Pattern": {
+      "style": "Command statement + location qualifier",
+      "examples": [
+        "[City]'s Commanding HVAC Authority",
+        "Chief-Level HVAC Service in [City]",
+        "Commanding Comfort, Delivering Results"
+      ]
+    },
+    "ctaStyle": {
+      "primary": "Directive, authoritative — 'Deploy a Technician Now', 'Request Your Chief'",
+      "secondary": "Supportive — 'View Service Details', 'Explore Maintenance Plans'",
+      "emergency": "Urgent authority — 'Emergency Dispatch Now', 'Call the Chief 24/7'"
+    },
+    "aboutNarrative": {
+      "angle": "Leadership and command-level expertise narrative. 12 years of commanding comfort in South Florida. The 'chief' as the highest rank of HVAC mastery. Emphasis on first-visit resolution, same-day service, and the discipline of a well-run operation. South Florida climate expertise (salt air, humidity, year-round cooling loads) as specialized knowledge that sets the team apart.",
+      "trustSignals": ["FL State Licensed", "Fully Insured", "12+ years", "4.8 stars / 85 reviews", "24/7 emergency", "same-day service"]
+    },
+    "reviewPersonas": [
+      { "name": "Patricia K.", "service": "AC Repair", "location": "Boca Raton", "angle": "Emergency response speed — 45 min arrival, same-day fix" },
+      { "name": "David R.", "service": "AC Installation", "location": "Boca Raton", "angle": "System upgrade ROI — energy bill savings, professional crew" },
+      { "name": "Maria S.", "service": "Maintenance Plans", "location": "Boca Raton", "angle": "Long-term relationship — 3 years, preventive value, trust" },
+      { "name": "James T.", "service": "Emergency HVAC", "location": "Fort Lauderdale", "angle": "After-hours emergency — 1 AM call, blower motor, same-night fix" },
+      { "name": "Linda W.", "service": "Duct Cleaning & Sealing", "location": "Fort Lauderdale", "angle": "Air quality improvement — musty air resolved, energy savings" },
+      { "name": "Carlos M.", "service": "AC Repair", "location": "Fort Lauderdale", "angle": "Honesty and speed — diagnosed fast, fair price, transparent" }
+    ],
+    "faqTopics": [
+      "Service area coverage (Boca Raton + Fort Lauderdale metro)",
+      "Emergency response time (under 60 minutes)",
+      "AC repair vs. replacement decision framework",
+      "Maintenance plan ROI and warranty preservation",
+      "South Florida-specific HVAC challenges (humidity, salt air, year-round cooling)",
+      "Duct cleaning frequency and health benefits",
+      "Financing for new installations",
+      "Permitting in Broward and Palm Beach counties",
+      "Brands serviced (Carrier, Trane, Lennox, Rheem, Daikin)",
+      "Commercial vs. residential service scope"
+    ]
+  },
+
+  "threeDElements": {
+    "style": "clean-geometric",
+    "renderer": "Three.js with React Three Fiber (@react-three/fiber + @react-three/drei)",
+    "hero": {
+      "description": "Rotating 3D HVAC unit with floating temperature readouts",
+      "specs": {
+        "model": "Stylized residential condenser unit — low-poly clean-geometric aesthetic, steel blue metallic material",
+        "geometry": "BoxGeometry base (1.2 x 0.8 x 1.0) with CylinderGeometry fan grill on top, rounded edges via bevel",
+        "material": "MeshStandardMaterial — metallic: 0.7, roughness: 0.3, color mapped to primary oklch(0.62 0.04 200)",
+        "animation": "Continuous Y-axis rotation at 0.3 rad/s, fan grill spins independently at 2.0 rad/s",
+        "floatingReadouts": [
+          { "label": "72 F", "position": "top-right offset", "style": "Html overlay (drei) with frosted glass bg, Bricolage Grotesque font, accent gold text" },
+          { "label": "45% Humidity", "position": "left offset", "style": "Same frosted glass, secondary readout size" },
+          { "label": "SEER 24", "position": "bottom-right offset", "style": "Badge-shaped container with double border matching card style" }
+        ],
+        "lighting": "ambientLight(0.4) + directionalLight(1.0, position: [5, 5, 5]) + pointLight(accent color, position: [-3, 2, 2], intensity: 0.5)",
+        "camera": "PerspectiveCamera, fov: 45, position: [3, 2, 4], lookAt: [0, 0.3, 0]",
+        "interaction": "OrbitControls with autoRotate, damping enabled, zoom disabled, vertical rotation limited to 15 degrees",
+        "fallback": "Static hero image /images/hero.jpg with CSS parallax"
+      }
+    },
+    "serviceCards": {
+      "description": "3D tool/equipment icons per service, rendered inline on each service card",
+      "specs": {
+        "renderer": "Individual Canvas per card (150x150px) or shared offscreen canvas with viewports",
+        "models": [
+          { "service": "AC Repair", "icon": "wrench", "geometry": "ExtrudeGeometry from SVG wrench path, depth 0.15", "color": "primary" },
+          { "service": "AC Installation", "icon": "thermometer", "geometry": "CylinderGeometry tube + SphereGeometry bulb, compound group", "color": "accent" },
+          { "service": "Heating Repair", "icon": "flame", "geometry": "LatheGeometry from flame profile curve, 3 nested layers with decreasing opacity", "color": "semantic.warning" },
+          { "service": "Duct Cleaning & Sealing", "icon": "fan-blade", "geometry": "3x TorusGeometry blades arrayed 120 degrees around center CylinderGeometry hub", "color": "primary" },
+          { "service": "Maintenance Plans", "icon": "gauge", "geometry": "TorusGeometry(0.5, 0.08, arc: 270deg) + needle as thin BoxGeometry pivoting from center", "color": "accent" },
+          { "service": "Emergency HVAC", "icon": "siren", "geometry": "CylinderGeometry base + SphereGeometry dome + pulsing PointLight inside", "color": "semantic.error" }
+        ],
+        "animation": "Hover triggers 360-degree Y-rotation over 0.6s (spring easing), idle state has subtle 5-degree oscillation",
+        "material": "MeshPhysicalMaterial — clearcoat: 0.3, metalness: 0.5, roughness: 0.4",
+        "fallback": "Lucide icon SVG (existing icon set from services.ts)"
+      }
+    },
+    "trustBadges": {
+      "description": "Embossed gold chief's badge with subtle rotation on hover",
+      "specs": {
+        "geometry": "Shield/badge shape via ExtrudeGeometry from custom SVG path — 5-pointed star inset, beveled edges (bevelThickness: 0.04, bevelSize: 0.03)",
+        "material": "MeshPhysicalMaterial — color: accent oklch(0.66 0.12 60), metalness: 0.9, roughness: 0.15, clearcoat: 1.0, clearcoatRoughness: 0.1",
+        "embossedText": "Troika-three-text or drei <Text3D> with Bricolage Grotesque — extruded 0.02 depth, positioned on badge face",
+        "animation": "Idle: subtle 3-degree Y oscillation (sin wave, 3s period). Hover: smooth 15-degree Y rotation + 5% scale-up over 0.4s",
+        "lighting": "Dedicated spotlight with warm color temperature (3200K equivalent) to enhance gold metallic sheen",
+        "instances": "One per trust badge (4 total), each with unique embossed text: 'Licensed', 'Insured', '12+ Yrs', '4.8 Stars'",
+        "fallback": "SVG badge icon with CSS gold gradient fill and box-shadow glow"
+      }
+    },
+    "cta": {
+      "description": "Particle system with brand-colored dots flowing like airflow",
+      "specs": {
+        "system": "Three.js Points (BufferGeometry + PointsMaterial) or drei <Sparkles>",
+        "particleCount": 200,
+        "colors": ["oklch(0.62 0.04 200)", "oklch(0.66 0.12 60)", "oklch(0.72 0.03 200)"],
+        "behavior": "Particles follow Perlin noise-based vector field simulating airflow — gentle left-to-right drift with turbulence swirls",
+        "size": "Random 2-6px, opacity mapped to velocity (faster = more opaque)",
+        "bounds": "Full-width CTA section background, particles wrap at edges",
+        "animation": "Continuous flow at ~0.5 units/s base velocity, subtle acceleration on scroll-into-view",
+        "interaction": "Mouse/touch position creates attractor point — particles curve toward cursor within 150px radius then resume flow",
+        "performance": "requestAnimationFrame with delta time, instancedBufferGeometry for GPU efficiency, paused when section not in viewport (IntersectionObserver)",
+        "fallback": "CSS gradient background with subtle animated gradient-shift (background-position animation)"
+      }
+    }
+  },
+
+  "remotionVideos": {
+    "globalConfig": {
+      "fps": 30,
+      "resolution": { "width": 1920, "height": 1080 },
+      "codec": "h264",
+      "brandWatermark": "HVAC Repair Chief logo badge, bottom-right corner, 8% opacity",
+      "colorPalette": {
+        "primary": "oklch(0.62 0.04 200)",
+        "accent": "oklch(0.66 0.12 60)",
+        "background": "oklch(0.975 0.003 200)",
+        "text": "oklch(0.20 0.02 200)"
+      },
+      "fonts": {
+        "display": "Bricolage Grotesque",
+        "body": "Geist"
+      },
+      "transitionStyle": "badge-wipe (chevron-shaped mask transition)"
+    },
+    "intro": {
+      "duration": "15s (450 frames at 30fps)",
+      "purpose": "Brand introduction for website hero, YouTube channel intro, paid ad pre-roll",
+      "storyboard": [
+        {
+          "segment": "Badge Reveal",
+          "timeRange": "0:00-0:04",
+          "frames": "0-120",
+          "visual": "Black screen fades up. 3D gold chief's badge rotates into frame from slight top-down angle. Badge catches light, metallic gleam sweeps across surface. Brand name 'HVAC Repair Chief' types in below badge in Bricolage Grotesque.",
+          "audio": "Subtle metallic shimmer SFX, low ambient hum"
+        },
+        {
+          "segment": "Service Highlights",
+          "timeRange": "0:04-0:10",
+          "frames": "120-300",
+          "visual": "Badge shrinks to corner. TradeShot-sourced images cycle in 2-second intervals: technician at condenser unit, duct inspection with camera, new system installation. Each image slides in from right with chevron-wipe transition. Service name overlays in accent gold.",
+          "audio": "Upbeat corporate track fades in, subtle whoosh on each transition"
+        },
+        {
+          "segment": "Trust Stats Counters",
+          "timeRange": "0:10-0:13",
+          "frames": "300-390",
+          "visual": "Full-width stat counter section on surface background. Four counters animate simultaneously: '12+' years, '4.8' star rating, '85+' reviews, '24/7' emergency. Numbers count up with spring easing. Gold accent underlines each.",
+          "audio": "Counter tick SFX (subtle), music continues"
+        },
+        {
+          "segment": "CTA with Phone",
+          "timeRange": "0:13-0:15",
+          "frames": "390-450",
+          "visual": "Clean CTA screen — primary background. Tagline 'Commanding Comfort Across South Florida' in display font. Phone numbers for both locations stack below. Airflow particle effect in background (simplified 2D version). Logo badge returns to center.",
+          "audio": "Music resolves, subtle chime on final frame"
+        }
+      ]
+    },
+    "serviceExplainers": [
+      {
+        "service": "AC Repair",
+        "duration": "30s (900 frames at 30fps)",
+        "purpose": "Service page embed, YouTube how-it-works, Facebook/Google ad",
+        "storyboard": [
+          {
+            "segment": "Problem Setup",
+            "timeRange": "0:00-0:07",
+            "visual": "Animated diagram of residential AC system (condenser, evaporator, ducts, thermostat). Red warning indicator appears on failing component (capacitor). Temperature readout rises from 72 to 85. Homeowner discomfort implied by rising thermometer graphic.",
+            "overlay": "Text: 'When Your AC Fails in South Florida Heat...'"
+          },
+          {
+            "segment": "Dispatch & Diagnosis",
+            "timeRange": "0:07-0:14",
+            "visual": "Map animation showing truck icon dispatching from HVAC Repair Chief HQ to home pin. Arrival timer counts from 0 to '< 60 min'. Technician silhouette with diagnostic equipment. System diagram highlights as each component is tested (airflow, refrigerant, electrical, thermostat).",
+            "overlay": "Step 1: Diagnose — 'Comprehensive system check'"
+          },
+          {
+            "segment": "Quote & Repair",
+            "timeRange": "0:14-0:22",
+            "visual": "Animated clipboard with line items appearing (written estimate). Checkmark animation. Cut to: capacitor component highlighted, old part fades out, new part fades in with green glow. Tools animate: wrench tightening, multimeter reading.",
+            "overlay": "Step 2: Quote / Step 3: Repair — 'No surprises. Manufacturer-grade parts.'"
+          },
+          {
+            "segment": "Verify & CTA",
+            "timeRange": "0:22-0:30",
+            "visual": "System diagram returns — all indicators turn green. Temperature readout drops from 85 to 72. Airflow arrows animate through duct system. Transition to CTA: phone number, '90-Day Warranty on All Repairs', logo badge.",
+            "overlay": "Step 4: Verify — 'Cooling restored. Guaranteed.'"
+          }
+        ]
+      },
+      {
+        "service": "HVAC Installation",
+        "duration": "30s (900 frames at 30fps)",
+        "purpose": "Service page embed, YouTube how-it-works, consideration-stage ad",
+        "storyboard": [
+          {
+            "segment": "Assessment",
+            "timeRange": "0:00-0:07",
+            "visual": "Animated house cross-section. Manual J calculation overlay: square footage, insulation rating, window area, orientation arrows. Numbers populate and a tonnage result appears with checkmark.",
+            "overlay": "'Every Installation Starts with Science' — Manual J Load Calculation"
+          },
+          {
+            "segment": "System Selection",
+            "timeRange": "0:07-0:14",
+            "visual": "Three AC unit options slide in (good/better/best). SEER2 ratings animate above each (16/20/24). Energy cost comparison bar chart. Customer selects high-efficiency option — golden highlight.",
+            "overlay": "Step 2: Design — 'Up to 24 SEER2 efficiency'"
+          },
+          {
+            "segment": "Installation Day",
+            "timeRange": "0:14-0:22",
+            "visual": "Time-lapse style: old unit fades out, new condenser and air handler fade in with installation animations. Duct connections animate. Permit document stamps 'APPROVED'. Clock shows single-day timeline.",
+            "overlay": "Step 3: Install — 'Most residential installs completed in one day'"
+          },
+          {
+            "segment": "Commissioning & CTA",
+            "timeRange": "0:22-0:30",
+            "visual": "Technician runs system test — refrigerant gauge, airflow measurement, thermostat programming. All green indicators. Energy bill comparison: old vs. new (animated bar chart showing savings). CTA with financing mention.",
+            "overlay": "Step 4: Commission — 'Verified performance. Flexible financing available.'"
+          }
+        ]
+      },
+      {
+        "service": "Duct Cleaning",
+        "duration": "30s (900 frames at 30fps)",
+        "purpose": "Service page embed, indoor air quality awareness campaign",
+        "storyboard": [
+          {
+            "segment": "The Hidden Problem",
+            "timeRange": "0:00-0:07",
+            "visual": "Cross-section of ductwork — dust particles, mold spores, pollen visible inside ducts. Air flows through and particles disperse into living space. Family member sneezes. Microscope zoom effect on contaminants.",
+            "overlay": "'What is Hiding Inside Your Ducts?'"
+          },
+          {
+            "segment": "Camera Inspection",
+            "timeRange": "0:07-0:14",
+            "visual": "Duct camera POV moving through dirty ductwork — simulated inspection footage. Leaks shown with animated air escaping. Airflow measurements at registers show imbalance (varying arrow sizes).",
+            "overlay": "Step 1: Assess — 'Camera inspection. Leak testing. Airflow measurement.'"
+          },
+          {
+            "segment": "Clean & Treat",
+            "timeRange": "0:14-0:22",
+            "visual": "HEPA vacuum animation extracting debris from ducts — before/after split screen. Antimicrobial treatment sprays through system (blue mist animation). Duct sealing with mastic — leak points sealed one by one.",
+            "overlay": "Steps 2-4: Clean, Treat, Seal — 'HEPA extraction. EPA-registered treatment. Mastic sealing.'"
+          },
+          {
+            "segment": "Results & CTA",
+            "timeRange": "0:22-0:30",
+            "visual": "Clean ducts cross-section — air flows cleanly. Energy bill comparison (20-30% savings highlighted). Family breathing easy. DOE stat citation. CTA with phone and logo badge.",
+            "overlay": "'Measurably better air. Lower energy bills. Guaranteed.'"
+          }
+        ]
+      },
+      {
+        "service": "Emergency Repair",
+        "duration": "30s (900 frames at 30fps)",
+        "purpose": "Emergency awareness, paid search/display ad, social proof",
+        "storyboard": [
+          {
+            "segment": "The Emergency",
+            "timeRange": "0:00-0:05",
+            "visual": "Night scene — clock reads 1:00 AM. AC unit makes grinding noise (animated vibration lines). Breaker trips (spark animation). Indoor temperature starts climbing. Red alert pulse.",
+            "overlay": "'When Your AC Fails at 1 AM...'"
+          },
+          {
+            "segment": "Immediate Dispatch",
+            "timeRange": "0:05-0:12",
+            "visual": "Phone rings — live dispatcher answers (speech bubble animation). Map shows nearest crew deploying. Truck icon moves toward home pin. Timer: 'Arrived in 47 minutes'.",
+            "overlay": "'24/7 Emergency Dispatch. Under 60 Minutes.'"
+          },
+          {
+            "segment": "On-Site Resolution",
+            "timeRange": "0:12-0:22",
+            "visual": "Technician arrives with fully stocked truck (tool inventory animation). Diagnoses blower motor failure. Replacement part from truck. Repair animation. System powers back on — cool air flows.",
+            "overlay": "'Diagnose. Repair. Restore. First Visit.'"
+          },
+          {
+            "segment": "Peace of Mind CTA",
+            "timeRange": "0:22-0:30",
+            "visual": "Temperature readout drops back to 72. Clock now reads 2:15 AM. 'No overtime premium' badge animates in. James T. review quote fades in as testimonial. CTA: emergency line numbers for both locations. Logo badge.",
+            "overlay": "'Same rates. Any hour. Call the Chief.'"
+          }
+        ]
+      }
+    ],
+    "socialClips": [
+      {
+        "platform": "Instagram Reel / TikTok / YouTube Short",
+        "format": { "width": 1080, "height": 1920, "fps": 30 },
+        "duration": "15s (450 frames)",
+        "variants": [
+          {
+            "name": "Before/After AC Repair",
+            "storyboard": "0-3s: Broken AC — ice on coils, warm air reading. Red tint. Text: 'BEFORE'. | 3-5s: Chief badge transition wipe. | 5-12s: Time-lapse repair — diagnosis, part swap, system restart. | 12-15s: 'AFTER' — cool 72 readout, green indicators. CTA: phone number overlay + 'Link in bio'.",
+            "audio": "Trending audio-compatible (music bed removable), repair SFX"
+          },
+          {
+            "name": "60-Second Emergency Response",
+            "storyboard": "0-2s: Night scene, AC failure alert. | 2-5s: Phone call, dispatch animation. | 5-10s: Truck en route, timer counting. | 10-13s: On-site repair montage. | 13-15s: 'Under 60 Minutes. Every Time.' + phone number.",
+            "audio": "Urgent tempo beat, clock tick SFX"
+          },
+          {
+            "name": "Duct Cleaning Reveal",
+            "storyboard": "0-3s: Camera entering dirty duct (POV). | 3-5s: Zoom on contaminants with labels. | 5-10s: HEPA vacuum extraction — satisfying cleaning footage. | 10-13s: Before/after split. | 13-15s: 'Breathe Better Today' + CTA.",
+            "audio": "Satisfying ASMR-style vacuum SFX, light music"
+          }
+        ]
+      }
+    ]
+  },
+
+  "stitchDesign": {
+    "vendor": "Stitch Design Co",
+    "deliverables": {
+      "logo": {
+        "style": "Emblem with wordmark",
+        "description": "Chief's badge/shield emblem containing brand name in Bricolage Grotesque. Five-pointed star or crossed-wrench motif inside shield. Clean geometric lines, not overly detailed — works at 32px favicon size up to billboard.",
+        "primaryVersion": {
+          "background": "transparent",
+          "badgeColor": "primary oklch(0.62 0.04 200)",
+          "starAccent": "accent oklch(0.66 0.12 60)",
+          "textColor": "oklch(0.20 0.02 200)",
+          "fontFamily": "Bricolage Grotesque",
+          "fontWeight": 700
+        },
+        "reverseVersion": {
+          "background": "transparent",
+          "badgeColor": "oklch(0.98 0.002 200)",
+          "starAccent": "accent oklch(0.66 0.12 60)",
+          "textColor": "oklch(0.98 0.002 200)"
+        },
+        "monochromeVersion": {
+          "dark": "oklch(0.20 0.02 200) on transparent",
+          "light": "oklch(0.98 0.002 200) on transparent"
+        },
+        "formats": ["SVG (primary)", "PNG @1x @2x @3x", "ICO (favicon)", "PDF (print)"],
+        "clearSpace": "Minimum clear space = height of the letter 'H' in wordmark on all sides",
+        "minimumSize": "32px width for badge-only mark, 120px width for full lockup"
+      },
+      "pattern": {
+        "name": "Chief's Chevron",
+        "style": "Chevron repeating pattern (military rank inspired)",
+        "description": "Repeating upward-pointing chevron stripes at 60-degree angles. Clean geometric lines. Subtle, not busy — used as background texture at 3-5% opacity or as decorative section dividers at full opacity.",
+        "colorApplications": [
+          {
+            "name": "Subtle Background",
+            "foreground": "primary oklch(0.62 0.04 200) at 4% opacity",
+            "background": "transparent",
+            "usage": "Hero section background, card hover state, section fill"
+          },
+          {
+            "name": "Divider Accent",
+            "foreground": "accent oklch(0.66 0.12 60) at 100% opacity",
+            "background": "transparent",
+            "usage": "Horizontal section dividers, decorative borders"
+          },
+          {
+            "name": "Print Pattern",
+            "foreground": "primary at 15% opacity",
+            "background": "white",
+            "usage": "Business card backgrounds, letterhead watermark, vehicle wrap panels"
+          }
+        ],
+        "tileSize": "64px x 64px base tile, seamlessly repeating",
+        "formats": ["SVG (seamless tile)", "PNG @2x (128x128)", "CSS background-image ready"]
+      },
+      "colorApplication": {
+        "primaryRule": "Primary steel blue on white/light backgrounds (light mode compliant)",
+        "accentRule": "Accent warm gold for emphasis, CTAs, badges, and trust elements only — never as large-area fill",
+        "printCMYK": {
+          "primary": "C:42 M:18 Y:10 K:0 (approximate for oklch(0.62 0.04 200))",
+          "accent": "C:5 M:22 Y:68 K:0 (approximate for oklch(0.66 0.12 60))",
+          "background": "C:1 M:0 Y:0 K:2"
+        },
+        "applications": [
+          { "item": "Business Card", "front": "White bg, primary logo lockup centered, accent gold divider line, contact info in body font", "back": "Chevron pattern at 8% opacity on white, phone numbers for both locations" },
+          { "item": "Vehicle Wrap", "layout": "White base, primary badge logo oversized on doors, accent gold chevron stripe along body line, phone number in display font on rear quarter" },
+          { "item": "Uniform Polo", "embroidery": "Primary badge logo left chest, Bricolage Grotesque wordmark on right sleeve, accent gold thread for star detail" },
+          { "item": "Yard Sign", "layout": "White corrugated, primary badge top-center, 'HVAC Repair Chief' below, accent gold phone number banner at bottom" },
+          { "item": "Invoice/Letterhead", "layout": "Badge logo top-left, chevron pattern watermark at 3% across full page, contact footer in body font" }
+        ]
+      }
+    }
+  },
+
+  "images": {
+    "existingPaths": {
+      "hero": "/images/hero.jpg",
+      "about": "/images/about.jpg",
+      "emergency": "/images/emergency.jpg",
+      "contact": "/images/contact.jpg",
+      "services": {
+        "ac-repair": "/images/ac-repair.jpg",
+        "ac-installation": "/images/ac-installation.jpg",
+        "heating-repair": "/images/heating-repair.jpg",
+        "duct-cleaning": "/images/duct-cleaning.jpg",
+        "maintenance": "/images/maintenance.jpg",
+        "emergency-hvac": "/images/emergency-hvac.jpg"
+      },
+      "locations": {
+        "boca-raton": "/images/boca-raton.jpg",
+        "fort-lauderdale": "/images/fort-lauderdale.jpg"
+      }
+    },
+    "tradeShotDirection": {
+      "style": "Professional HVAC technician photography — clean uniforms, real equipment, South Florida residential settings",
+      "colorGrading": "Slight cool-tone grade to match steel blue primary. Warm gold accent in highlights (sunset light, equipment gleam).",
+      "subjects": [
+        "Technician diagnosing condenser unit (outdoor, residential)",
+        "Duct inspection with camera equipment (indoor, attic/crawlspace)",
+        "New system installation crew at work",
+        "Emergency technician arriving at night with truck lights",
+        "Maintenance tune-up close-up (coil cleaning, gauge reading)",
+        "Happy homeowner with technician (job completion handshake)"
+      ]
+    }
+  },
+
+  "socialLinks": {
+    "facebook": "#",
+    "instagram": "#",
+    "google": "#"
+  }
+}
