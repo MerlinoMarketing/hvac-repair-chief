@@ -179,20 +179,21 @@
 
   "colors": {
     "_note": "LIGHT mode colors. Primary from brands-index.json (L=0.62), NOT the dark brand.ts value (L=0.40).",
+    "_collisionCheck": "Primary hue changed from 200 to 220 to resolve exact match conflict with Palm Beach HVAC Repair Company in same South FL HVAC market. New hue spread: Pompano Beach 190, HVAC Repair Chief 220 (30° apart ✓), Palm Beach HVAC 155 (35° from Pompano, 65° from Chief ✓).",
     "primary": {
-      "value": "oklch(0.62 0.04 200)",
+      "value": "oklch(0.62 0.04 220)",
       "lightness": 0.62,
       "chroma": 0.04,
-      "hue": 200,
-      "hex_approx": "#7BA3B3",
+      "hue": 220,
+      "hex_approx": "#6BA8B8",
       "usage": "headers, nav active state, primary buttons, icon fills, section dividers"
     },
     "primaryDark": {
-      "value": "oklch(0.52 0.05 200)",
+      "value": "oklch(0.52 0.05 220)",
       "usage": "hover states on primary elements, active nav, pressed buttons"
     },
     "primaryLight": {
-      "value": "oklch(0.72 0.03 200)",
+      "value": "oklch(0.72 0.03 220)",
       "usage": "primary tint backgrounds, badge fills, subtle highlights"
     },
     "accent": {
