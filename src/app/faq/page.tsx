@@ -1,211 +1,217 @@
-import type { Metadata } from "next";
-import { ChevronDown, HelpCircle } from "lucide-react";
+import Link from 'next/link';
+import { Navigation } from '@/components/landing/Navigation';
+import { Footer } from '@/components/landing/Footer';
+import { PageHero } from '@/components/landing/PageHero';
+import { Phone, Mail } from 'lucide-react';
 
-import { brand } from "@/config/brand";
-import { services } from "@/config/services";
-import { locations } from "@/config/locations";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { MobileCallBar } from "@/components/layout/mobile-call-bar";
-import { CtaSection } from "@/components/shared/cta-section";
-import { Breadcrumb } from "@/components/shared/breadcrumb";
-import { getBreadcrumbSchema, getFaqSchema } from "@/lib/schema";
-
-export const metadata: Metadata = {
-  title: "FAQ | Common HVAC Questions Answered",
-  description: `Get answers to frequently asked questions about AC repair, installation, maintenance, and emergency HVAC service in South Florida from ${brand.name}.`,
+export const metadata = {
+  title: 'Frequently Asked Questions | Pompano Beach House AC Repair',
+  description: 'Get answers to common questions about HVAC services, repairs, replacements, warranties, and more.',
 };
 
-const generalFaq: { question: string; answer: string }[] = [
+const faqs = [
   {
-    question: "What areas does HVAC Repair Chief serve?",
-    answer:
-      "We serve Boca Raton, Fort Lauderdale, and surrounding communities across Broward and Palm Beach counties. Our dedicated crews in each market ensure fast response times throughout South Florida.",
+    category: 'General Questions',
+    questions: [
+      {
+        q: 'How long have you been in business?',
+        a: 'Pompano Beach House AC Repair has been serving the community for over 25 years, providing quality HVAC services to thousands of satisfied customers.',
+      },
+      {
+        q: 'Are you licensed and insured?',
+        a: 'Yes, we are fully licensed, bonded, and insured. We carry comprehensive general liability insurance and workers\' compensation coverage to protect you and our team.',
+      },
+      {
+        q: 'What areas do you serve?',
+        a: 'We serve the greater Pompano Beach area and surrounding communities. Contact us to confirm we service your specific location.',
+      },
+      {
+        q: 'Do you offer free estimates?',
+        a: 'Absolutely! We provide free, no-obligation estimates for all HVAC projects. Contact us to schedule your free inspection and quote.',
+      },
+    ],
   },
   {
-    question: "Are your technicians licensed and insured?",
-    answer:
-      "Yes. Every HVAC Repair Chief technician holds a Florida state HVAC license and EPA 608 certification. We carry full general liability insurance and workers' compensation coverage on every job.",
+    category: 'HVAC Services',
+    questions: [
+      {
+        q: 'What types of AC systems do you work with?',
+        a: 'We service and install all major AC system types including central air conditioning, heat pumps, ductless mini-splits, package units, and more. We can help you choose the best system for your home and budget.',
+      },
+      {
+        q: 'How long does a AC installation take?',
+        a: 'Most residential AC installations take 1-3 days, depending on the size and complexity of your HVAC system, weather conditions, and material type. We\'ll provide a detailed timeline with your estimate.',
+      },
+      {
+        q: 'Do you handle both residential and commercial HVAC?',
+        a: 'Yes! We provide comprehensive HVAC services for both residential homes and commercial buildings of all sizes.',
+      },
+      {
+        q: 'Can you repair my existing AC system or do I need a full replacement?',
+        a: 'In many cases, we can repair your existing system and extend its life. However, if your unit is over 10-15 years old or requires frequent repairs, a replacement may be more cost-effective. We\'ll give you an honest assessment during your estimate.',
+      },
+    ],
   },
   {
-    question: "Do you offer free estimates?",
-    answer:
-      "We provide free written estimates for new AC installations and system replacements. For diagnostic service calls, a flat-rate dispatch fee applies, which is waived if you proceed with the recommended repair.",
+    category: 'Costs & Payment',
+    questions: [
+      {
+        q: 'How much does a new AC system cost?',
+        a: 'AC system costs vary based on the type, size, efficiency rating, and complexity of the installation. On average, residential systems range from $3,500 to $12,000+. Schedule a free estimate for accurate pricing for your specific home.',
+      },
+      {
+        q: 'Do you offer financing options?',
+        a: 'Yes, we work with several financing partners to offer flexible payment plans. Ask about our current financing options during your consultation.',
+      },
+      {
+        q: 'What forms of payment do you accept?',
+        a: 'We accept cash, checks, credit cards, and financing. We also work directly with insurance companies for covered HVAC repairs and replacements.',
+      },
+      {
+        q: 'Do I need to pay everything upfront?',
+        a: 'No. Typically, we require a deposit to schedule your project, with the balance due upon completion. Specific payment terms will be outlined in your contract.',
+      },
+    ],
   },
   {
-    question: "What brands of HVAC equipment do you service?",
-    answer:
-      "We service all major brands including Carrier, Trane, Lennox, Rheem, Goodman, Daikin, York, Amana, and Bryant. Our trucks carry common OEM parts for same-day repairs across these manufacturers.",
+    category: 'Insurance & Emergency AC Service',
+    questions: [
+      {
+        q: 'Do you work with insurance companies?',
+        a: 'Yes, we have extensive experience working with insurance companies for HVAC-related claims. We can help document damage, meet with adjusters, and ensure you receive fair compensation.',
+      },
+      {
+        q: 'Will you help with the insurance claim process?',
+        a: 'Absolutely. We\'ll provide detailed documentation, photos, and estimates to support your claim. We can also meet with your insurance adjuster to explain the necessary repairs.',
+      },
+      {
+        q: 'How do I know if my AC needs emergency repair?',
+        a: 'Common signs include your system blowing warm air, strange noises or burning smells, refrigerant leaks, the unit not turning on, or your home not cooling despite the AC running. We offer free inspections to assess your HVAC system.',
+      },
+      {
+        q: 'How quickly can you respond to emergency repairs?',
+        a: 'We offer 24/7 emergency AC repair services for urgent situations like a complete system failure or no cooling during extreme heat. Call us immediately for emergency assistance.',
+      },
+    ],
   },
   {
-    question: "How do I know if I should repair or replace my AC system?",
-    answer:
-      "As a general rule, if your system is over 10-12 years old and the repair costs more than half the price of a new system, replacement is usually the better investment. We always give you an honest assessment with both options and their long-term costs.",
+    category: 'Warranties & Maintenance',
+    questions: [
+      {
+        q: 'What kind of warranty do you offer?',
+        a: 'We provide comprehensive warranties on both materials (manufacturer warranty) and workmanship (our labor warranty). Specific terms vary by project and will be detailed in your contract.',
+      },
+      {
+        q: 'How long do AC systems typically last?',
+        a: 'In South Florida, AC systems typically last 10-15 years due to the heavy year-round use. Lifespan varies by system type: central AC units (10-15 years), heat pumps (10-15 years), ductless mini-splits (15-20 years). Proper maintenance can extend these lifespans significantly.',
+      },
+      {
+        q: 'Do you offer HVAC maintenance services?',
+        a: 'Yes, we offer preventive HVAC maintenance plans to extend your system\'s life, improve efficiency, and catch small issues before they become expensive problems.',
+      },
+      {
+        q: 'How often should I have my AC system serviced?',
+        a: 'We recommend professional HVAC maintenance at least twice per year — once before cooling season and once before heating season. In South Florida, where your AC runs nearly year-round, regular tune-ups help maintain efficiency and prevent breakdowns.',
+      },
+    ],
   },
   {
-    question: "What payment methods do you accept?",
-    answer:
-      "We accept cash, all major credit cards (Visa, Mastercard, American Express, Discover), personal checks, and offer financing options for qualifying customers on larger installations.",
-  },
-  {
-    question: "Do you offer warranties on your work?",
-    answer:
-      "Yes. All repair work comes with a 90-day labor warranty. New installations include full manufacturer equipment warranties (typically 5-10 years) plus our own 1-year labor warranty. Maintenance plan members receive extended warranty benefits.",
-  },
-  {
-    question: "How can I improve my HVAC system's energy efficiency?",
-    answer:
-      "Regular maintenance is the single biggest factor — a well-maintained system runs 15-25% more efficiently. Additionally, sealing duct leaks, upgrading to a programmable thermostat, changing filters monthly in South Florida's climate, and ensuring proper insulation all contribute to lower energy bills.",
-  },
-  {
-    question: "How often should I change my air filter?",
-    answer:
-      "In South Florida, we recommend changing standard 1-inch filters every 30 days due to the year-round AC usage, high humidity, and elevated pollen counts. Homes with pets or allergy sufferers may benefit from premium filters changed every 60-90 days. 4-inch media filters can last 6-12 months.",
+    category: 'Project Details',
+    questions: [
+      {
+        q: 'Will I need to be home during the HVAC work?',
+        a: 'You don\'t need to be home during most of the work, but we recommend being available for the initial meeting and final walkthrough. We\'ll coordinate with your schedule.',
+      },
+      {
+        q: 'How do you protect my property during the project?',
+        a: 'We use drop cloths and protective coverings to keep your home clean during installation. Our technicians wear shoe covers indoors and conduct a thorough cleanup after every job. Your property protection is a top priority.',
+      },
+      {
+        q: 'What happens if weather delays the project?',
+        a: 'We monitor weather closely and will reschedule work if conditions aren\'t safe. We\'ll keep you informed of any delays and adjust the timeline accordingly.',
+      },
+      {
+        q: 'Can you work in winter months?',
+        a: 'Yes, though certain materials and temperatures may require special considerations. We\'ll advise you on the best timing for your specific project.',
+      },
+    ],
   },
 ];
 
-interface FaqCategory {
-  title: string;
-  id: string;
-  items: { question: string; answer: string }[];
-}
-
-function buildCategories(): FaqCategory[] {
-  const categories: FaqCategory[] = [
-    { title: "General HVAC", id: "general", items: generalFaq },
-  ];
-
-  for (const service of services) {
-    if (service.faq.length > 0) {
-      categories.push({
-        title: service.name,
-        id: service.slug,
-        items: service.faq,
-      });
-    }
-  }
-
-  const locationFaqItems: { question: string; answer: string }[] = [];
-  for (const loc of locations) {
-    for (const item of loc.faq) {
-      locationFaqItems.push(item);
-    }
-  }
-  if (locationFaqItems.length > 0) {
-    categories.push({
-      title: "Locations & Service Areas",
-      id: "locations",
-      items: locationFaqItems,
-    });
-  }
-
-  return categories;
-}
-
-export default function FaqPage() {
-  const categories = buildCategories();
-  const allFaqItems = categories.flatMap((cat) => cat.items);
-  const breadcrumbSchema = getBreadcrumbSchema([{ label: "FAQ" }]);
-  const faqSchema = getFaqSchema(allFaqItems);
-
+export default function FAQPage() {
   return (
-    <>
-      <Navbar />
-      <main id="main-content">
-        <section className="relative overflow-hidden border-b-2 border-border pb-16 pt-32 sm:pt-36">
-          <div
-            className="absolute inset-0 bg-gradient-to-br from-primary/[0.04] via-transparent to-accent/[0.03]"
-            aria-hidden="true"
-          />
-          <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <Breadcrumb items={[{ label: "FAQ" }]} />
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary">
-              Frequently Asked Questions
-            </p>
-            <h1 className="mt-4 max-w-3xl font-display text-balance font-semibold tracking-tight text-gray-900">
-              Your HVAC questions, answered by our experts.
-            </h1>
-            <p className="mt-4 max-w-2xl text-lg leading-8 text-gray-600">
-              From AC repair and installation to maintenance plans and emergency
-              service, find clear answers to the most common questions South
-              Florida homeowners ask us.
-            </p>
-          </div>
-        </section>
-
-        {/* Category nav */}
-        <section className="border-b-2 border-border bg-secondary">
-          <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-            <div className="flex flex-wrap gap-2">
-              {categories.map((cat) => (
-                <a
-                  key={cat.id}
-                  href={`#${cat.id}`}
-                  className="chief-card inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:border-primary/30 hover:text-gray-900"
-                >
-                  {cat.title}
-                  <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
-                    {cat.items.length}
-                  </span>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* FAQ sections */}
-        <section className="section-shell">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-            <div className="space-y-16">
-              {categories.map((cat) => (
-                <div key={cat.id} id={cat.id} className="scroll-mt-24">
-                  <div className="flex items-center gap-3 border-b-2 border-border pb-4">
-                    <HelpCircle className="size-5 text-primary" />
-                    <h2 className="font-display text-xl font-semibold text-gray-900">
-                      {cat.title}
-                    </h2>
-                    <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
-                      {cat.items.length} questions
-                    </span>
-                  </div>
-                  <div className="mt-6 divide-y divide-border">
-                    {cat.items.map((item, idx) => (
-                      <details
-                        key={`${cat.id}-${idx}`}
-                        className="group py-5"
-                      >
-                        <summary className="flex cursor-pointer items-start justify-between gap-4 text-left">
-                          <span className="text-base font-medium text-gray-900 group-open:text-primary">
-                            {item.question}
-                          </span>
-                          <ChevronDown className="mt-0.5 size-5 shrink-0 text-gray-400 transition-transform group-open:rotate-180 group-open:text-primary" />
-                        </summary>
-                        <p className="mt-3 text-sm leading-7 text-gray-600">
-                          {item.answer}
-                        </p>
-                      </details>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <CtaSection />
-      </main>
-      <Footer />
-      <MobileCallBar />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800">
+      <Navigation />
+      <PageHero
+        title="Frequently Asked Questions"
+        subtitle="Find answers to common questions about our HVAC services, processes, and policies"
       />
-      {faqSchema && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-        />
-      )}
-    </>
+
+      <main className="py-16 px-4">
+        <div className="max-w-5xl mx-auto">
+
+          {/* FAQ Categories */}
+          <div className="space-y-12">
+            {faqs.map((category, categoryIndex) => (
+              <section key={categoryIndex} className="bg-slate-100/80 border border-slate-700 rounded-xl p-8">
+                <h2 className="text-2xl md:text-3xl font-bold text-cyan-600 mb-8 pb-4 border-b border-slate-700">
+                  {category.category}
+                </h2>
+
+                <div className="space-y-8">
+                  {category.questions.map((faq, faqIndex) => (
+                    <div key={faqIndex} className="border-l-4 border-cyan-500/30 pl-6">
+                      <h3 className="text-xl font-bold text-slate-900 mb-3">
+                        {faq.q}
+                      </h3>
+                      <p className="text-slate-600 leading-relaxed">
+                        {faq.a}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+
+          {/* CTA Section */}
+          <section className="mt-16 bg-slate-100/80 border border-slate-700 rounded-xl p-8 md:p-12 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              Still Have Questions?
+            </h2>
+            <p className="text-xl text-slate-600 mb-8">
+              Our team is here to help! Get in touch for personalized answers and expert HVAC advice.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href="tel:+19542896718"
+                className="inline-flex items-center justify-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-slate-900 font-bold px-8 py-4 rounded-lg transition shadow-lg shadow-cyan-600/20"
+              >
+                <Phone className="h-5 w-5" aria-hidden="true" />
+                Call: (954) 289-6718
+              </a>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold px-8 py-4 rounded-lg transition border border-slate-600"
+              >
+                <Mail className="h-5 w-5" aria-hidden="true" />
+                Send a Message
+              </Link>
+            </div>
+          </section>
+
+          <div className="mt-12 pt-8 border-t border-slate-700 text-center">
+            <Link
+              href="/"
+              className="text-cyan-600 hover:text-cyan-500 transition inline-flex items-center gap-2"
+            >
+              ← Back to Home
+            </Link>
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
   );
 }

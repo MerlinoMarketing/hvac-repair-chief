@@ -1,211 +1,362 @@
-import type { Metadata } from "next";
-import { Clock3, Lock, Mail, MapPin, Phone, Shield, Siren, Star } from "lucide-react";
-
-import { brand } from "@/config/brand";
-import { locations } from "@/config/locations";
-import { toTel } from "@/lib/utils";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { MobileCallBar } from "@/components/layout/mobile-call-bar";
-import { Breadcrumb } from "@/components/shared/breadcrumb";
-import { ContactForm } from "@/components/shared/contact-form";
-import { SectionHeading } from "@/components/shared/section-heading";
-import { getBreadcrumbSchema } from "@/lib/schema";
+import { Navigation } from '@/components/landing/Navigation';
+import { Footer } from '@/components/landing/Footer';
+import { Contact } from '@/components/landing/Contact';
+import { Phone, Mail, MapPin, Clock, CheckCircle } from 'lucide-react';
+import Image from 'next/image';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Contact Us | Free HVAC Estimate in South Florida",
-  description: `Request a free HVAC estimate from ${brand.name}. Same-day appointments in Boca Raton & Fort Lauderdale. Call or submit our online form now.`,
+  title: 'Contact Pompano Beach House AC Repair | Free AC Estimate',
+  description: 'Contact Pompano Beach House AC Repair for expert HVAC services. Free estimates, 24/7 emergency service. Call (954) 289-6718, text, or request quote online. Licensed & insured!',
 };
 
+const contactMethods = [
+  {
+    icon: Phone,
+    title: 'Call Us Today',
+    value: '(954) 289-6718',
+    href: 'tel:+19542896718',
+    description: 'Mon-Fri: 7:00 AM - 6:00 PM',
+  },
+  {
+    icon: Mail,
+    title: 'Email Us',
+    value: 'info@pompanobeachhouseacrepair.com',
+    href: 'mailto:info@pompanobeachhouseacrepair.com',
+    description: 'Response within 4 hours',
+  },
+  {
+    icon: MapPin,
+    title: 'Visit Our Office',
+    value: '123 Main Street, Pompano Beach, FL 33432',
+    href: '#',
+    description: 'Mon-Fri: 7:00 AM - 6:00 PM',
+  },
+];
+
+const benefits = [
+  'Free, no-obligation estimates',
+  'Same-day response guaranteed',
+  'Licensed & insured professionals',
+  'Transparent pricing, no hidden fees',
+  '24/7 emergency service available',
+  'Lifetime workmanship warranty',
+];
+
+const processSteps = [
+  {
+    step: '1',
+    title: 'Contact Us',
+    description: 'Call, email, or submit the form. We respond within 2 hours during business hours.',
+  },
+  {
+    step: '2',
+    title: 'Fast Response',
+    description: 'Licensed professional inspects your HVAC system thoroughly and documents findings.',
+  },
+  {
+    step: '3',
+    title: 'Detailed Estimate',
+    description: 'Receive clear, itemized pricing with multiple options and warranty information.',
+  },
+  {
+    step: '4',
+    title: 'Quality Work',
+    description: 'Expert installation on schedule with daily cleanup and final walkthrough.',
+  },
+];
+
+const faqs = [
+  {
+    question: 'Is the inspection and estimate really free?',
+    answer: 'Yes! All inspections and estimates are completely free with no obligation. We don\'t charge consultation fees or use high-pressure sales tactics.',
+  },
+  {
+    question: 'How quickly can you schedule an inspection?',
+    answer: 'Most inspections are scheduled within 2-5 business days. We offer flexible scheduling including early morning, evening, and Saturday appointments.',
+  },
+  {
+    question: 'Do you offer emergency services?',
+    answer: 'Absolutely. Our 24/7 emergency line connects you with on-call technicians for urgent AC breakdowns and system failures. We typically arrive within 2-4 hours.',
+  },
+  {
+    question: 'Do you work with insurance companies?',
+    answer: 'Yes! We work with all major insurance companies and provide free claim assistance including documentation, adjuster meetings, and claim negotiation.',
+  },
+];
+
 export default function ContactPage() {
-  const breadcrumbSchema = getBreadcrumbSchema([{ label: "Contact" }]);
-
   return (
-    <>
-      <Navbar />
-      <main id="main-content">
-        <section className="relative overflow-hidden border-b-2 border-border pb-16 pt-32 sm:pt-36">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.04] via-transparent to-accent/[0.03]" aria-hidden="true" />
-          <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <Breadcrumb items={[{ label: "Contact" }]} />
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary">
-              Get In Touch
-            </p>
-            <h1 className="mt-4 max-w-3xl font-display text-balance font-semibold tracking-tight text-gray-900">
-              Get your free HVAC estimate today.
-            </h1>
-            <p className="mt-4 max-w-2xl text-lg leading-8 text-gray-600">
-              Call your local crew for same-day scheduling in Boca Raton or Fort Lauderdale, or submit the form below. We respond within one business hour during office hours.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-4">
-              {locations.map((loc) => (
-                <a
-                  key={loc.slug}
-                  href={toTel(loc.phone)}
-                  className="inline-flex min-h-12 items-center gap-2 rounded-md bg-accent px-5 text-sm font-bold text-gray-900 shadow-md shadow-accent/25 transition hover:bg-accent/90 hover:shadow-lg"
-                >
-                  <Phone className="size-4" />
-                  {loc.city} — {loc.phone.replace("+1 ", "")}
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
+    <main className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800">
+      <Navigation />
 
-        <section className="section-shell">
-          <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)] lg:px-8">
-            <div className="space-y-8">
-              <SectionHeading
-                eyebrow="Online Form"
-                title={`Get a free estimate from ${brand.name}.`}
-                description="Fill out the form and we'll respond within 1 business hour during office hours."
+      {/* Hero Section with Background */}
+      <section className="relative pt-32 pb-12 px-4 overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/contact/office-hero.jpg"
+            alt="Contact Pompano Beach House AC Repair - Professional office"
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-white/88"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/88 to-slate-900"></div>
+        </div>
+
+        <div className="container mx-auto max-w-4xl text-center relative z-10">
+          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6">
+            Get Your <span className="text-cyan-600">Free Estimate</span>
+          </h1>
+          <p className="text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto">
+            Ready to keep your home cool and comfortable? Contact us today for a free,
+            no-obligation HVAC estimate from our expert team.
+          </p>
+        </div>
+      </section>
+
+      {/* Quick Contact Methods */}
+      <section className="py-12 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid md:grid-cols-3 gap-6">
+            {contactMethods.map((method, index) => (
+              <a
+                key={index}
+                href={method.href}
+                className="bg-slate-100/80 border border-slate-700/50 hover:border-cyan-600/50 rounded-xl p-6 transition-all hover:shadow-lg hover:shadow-cyan-600/10 group"
+              >
+                <div className="flex flex-col items-center text-center">
+                  <div className="bg-cyan-600/10 group-hover:bg-cyan-600/20 p-4 rounded-lg mb-4 transition-colors">
+                    <method.icon className="h-8 w-8 text-cyan-600" />
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">{method.title}</h3>
+                  <p className="text-cyan-600 font-semibold mb-2 group-hover:text-cyan-500 transition-colors">
+                    {method.value}
+                  </p>
+                  <p className="text-sm text-slate-500">{method.description}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Main Contact Section */}
+      <Contact />
+
+      {/* What Happens Next */}
+      <section className="py-20 px-4 bg-slate-100/80">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              What Happens Next?
+            </h2>
+            <p className="text-xl text-slate-600">
+              Our simple 4-step process makes getting your HVAC service easy and stress-free.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {processSteps.map((item, index) => (
+              <div
+                key={index}
+                className="relative"
+              >
+                <div className="bg-slate-100/80 border border-slate-600/50 rounded-xl p-6 h-full">
+                  <div className="absolute -top-4 -left-4 bg-cyan-600 text-slate-900 font-bold text-2xl w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
+                    {item.step}
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-3 mt-4">{item.title}</h3>
+                  <p className="text-slate-600 leading-relaxed">{item.description}</p>
+                </div>
+                {index < processSteps.length - 1 && (
+                  <div className="hidden lg:block absolute top-1/2 -right-4 text-cyan-600 text-2xl">
+                    →
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Service Area */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Map/Location Image */}
+            <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl">
+              <Image
+                src="/images/contact/service-area.jpg"
+                alt="Pompano Beach House AC Repair service area map"
+                fill
+                className="object-cover"
               />
-              <div className="stagger-up">
-                <ContactForm />
-              </div>
-              {/* Security & trust badge below form */}
-              <div className="flex flex-wrap items-center gap-4 rounded-md border border-gray-100 bg-gray-50/50 px-4 py-3 text-xs text-gray-500">
-                <span className="flex items-center gap-1.5">
-                  <Lock className="size-3.5 text-green-600" />
-                  Your information is secure &amp; never shared
-                </span>
-                <span className="hidden h-3 w-px bg-gray-200 sm:block" />
-                <span className="flex items-center gap-1.5">
-                  <Clock3 className="size-3.5 text-primary" />
-                  We respond within 1 business hour
-                </span>
+              <div className="absolute inset-0 bg-white/70"></div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="bg-cyan-600/95 backdrop-blur-sm rounded-xl p-6 text-slate-900 text-center shadow-2xl">
+                  <MapPin className="h-12 w-12 mx-auto mb-3" />
+                  <div className="font-bold text-xl mb-1">Serving Your Area</div>
+                  <div className="text-sm">Pompano Beach & Surrounding Communities</div>
+                </div>
               </div>
             </div>
 
-            <aside className="space-y-5">
-              {/* Rating & trust card */}
-              <div className="chief-card stagger-up rounded-md bg-white p-5">
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-0.5">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} className="size-4 fill-amber-400 text-amber-400" />
-                    ))}
-                  </div>
-                  <span className="font-display text-lg font-bold text-gray-900">{brand.rating}/5</span>
-                </div>
-                <p className="mt-1 text-sm text-gray-500">{brand.reviewCount}+ verified Google reviews</p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  <span className="inline-flex items-center gap-1 rounded-md bg-primary/5 px-2 py-1 text-xs font-medium text-primary">
-                    <Shield className="size-3" /> FL Licensed
-                  </span>
-                  <span className="inline-flex items-center gap-1 rounded-md bg-accent/10 px-2 py-1 text-xs font-medium text-accent">
-                    <Shield className="size-3" /> Fully Insured
-                  </span>
-                  <span className="inline-flex items-center gap-1 rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700">
-                    <Clock3 className="size-3" /> Same-Day Service
-                  </span>
-                </div>
-              </div>
+            {/* Service Area Text */}
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+                Serving Your Area
+              </h2>
+              <p className="text-lg text-slate-600 mb-6 leading-relaxed">
+                We proudly serve homeowners and businesses throughout the greater Pompano Beach area
+                and surrounding communities. Our central location allows us to respond quickly to
+                emergencies and service calls.
+              </p>
 
-              {/* General contact info */}
-              <div className="chief-card stagger-up rounded-md bg-white p-6">
-                <p className="text-sm uppercase tracking-[0.3em] text-primary">General Info</p>
-                <div className="mt-5 space-y-4">
-                  {[
-                    { icon: Mail, label: "Email", value: brand.email, href: `mailto:${brand.email}` },
-                    { icon: Clock3, label: "Hours", value: brand.hours },
-                  ].map(({ icon: Icon, label, value, href }) => (
-                    <div key={label} className="chief-card flex items-start gap-4 rounded-md px-4 py-3">
-                      <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
-                        <Icon className="size-4.5" />
-                      </div>
-                      <div>
-                        <p className="text-xs uppercase tracking-[0.25em] text-gray-500">{label}</p>
-                        {href ? (
-                          <a href={href} className="mt-1 text-sm leading-6 text-gray-700 hover:text-primary">
-                            {value}
-                          </a>
-                        ) : (
-                          <p className="mt-1 text-sm leading-6 text-gray-700">{value}</p>
-                        )}
-                      </div>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">Primary Service Areas:</h3>
+                  <div className="grid grid-cols-2 gap-2 text-slate-600">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-cyan-600" />
+                      Pompano Beach
                     </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Location phones */}
-              <div className="chief-card stagger-up rounded-md bg-white p-6">
-                <p className="text-sm uppercase tracking-[0.3em] text-primary">Call Your City</p>
-                <div className="mt-5 space-y-3">
-                  {locations.map((loc) => (
-                    <a
-                      key={loc.slug}
-                      href={toTel(loc.phone)}
-                      className="chief-card flex items-center gap-3 rounded-md px-4 py-3 transition hover:border-primary/30 hover:bg-gray-50"
-                    >
-                      <Phone className="size-4 text-primary" />
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-gray-900">{loc.city}</p>
-                      </div>
-                      <span className="text-sm font-medium text-primary">
-                        {loc.phone.replace("+1 ", "")}
-                      </span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {/* Emergency response card */}
-              <div className="stagger-up chief-card rounded-md border-2 border-primary/20 bg-primary/[0.04] p-6">
-                <div className="flex items-center gap-3">
-                  <div className="flex size-10 items-center justify-center rounded-md bg-primary/10">
-                    <Siren className="size-5 text-primary" />
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-cyan-600" />
+                      Deerfield Beach
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-cyan-600" />
+                      Coral Springs
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-cyan-600" />
+                      Margate
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-cyan-600" />
+                      Lighthouse Point
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-cyan-600" />
+                      Parkland
+                    </div>
                   </div>
+                </div>
+
+                <p className="text-slate-500 text-sm pt-4">
+                  Don't see your city? Call us at (954) 289-6718 - we often extend service for
+                  projects and may have crews in your area.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-cyan-600/10 to-teal-500/10 border-2 border-cyan-600/30 rounded-2xl p-8">
+              <h3 className="text-2xl font-bold text-slate-900 mb-6">Office Hours</h3>
+
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <Clock className="h-6 w-6 text-cyan-600 flex-shrink-0 mt-1" />
                   <div>
-                    <p className="text-sm font-bold text-gray-900">Emergency? We Dispatch in Under 60 Minutes.</p>
-                    <p className="text-xs text-gray-500">24/7 emergency HVAC crews across South Florida</p>
-                  </div>
-                </div>
-                <a
-                  href={toTel(locations[0].phone)}
-                  aria-label={`Call ${locations[0].phone} for emergency HVAC dispatch`}
-                  className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-md bg-accent text-sm font-bold text-gray-900 transition hover:bg-accent/90"
-                >
-                  <Phone className="size-4" aria-hidden="true" />
-                  Emergency Dispatch Now
-                </a>
-              </div>
-
-              {/* Map placeholder */}
-              <div className="chief-card stagger-up overflow-hidden rounded-md">
-                <div className="flex min-h-[280px] items-end bg-secondary p-6">
-                  <div className="chief-card rounded-md bg-white p-5">
-                    <p className="text-sm uppercase tracking-[0.28em] text-primary">
-                      Service Area
-                    </p>
-                    <p className="mt-3 max-w-xs text-base leading-7 text-gray-600">
-                      We proudly serve communities across Broward and Palm Beach counties. Contact us to confirm availability in your area.
-                    </p>
-                    <div className="mt-3 flex flex-wrap gap-1.5">
-                      {locations.map((loc) => (
-                        <span
-                          key={loc.slug}
-                          className="inline-flex items-center gap-1 rounded-md bg-primary/5 px-2 py-1 text-xs text-primary"
-                        >
-                          <MapPin className="size-3" />
-                          {loc.city}
-                        </span>
-                      ))}
+                    <div className="text-slate-900 font-semibold mb-2">Regular Hours:</div>
+                    <div className="text-slate-600 space-y-1">
+                      <div>Monday - Friday: 7:00 AM - 6:00 PM</div>
+                      <div>Saturday: 8:00 AM - 4:00 PM</div>
+                      <div>Sunday: Closed</div>
                     </div>
                   </div>
                 </div>
+
+                <div className="border-t border-cyan-600/30 pt-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="inline-block h-2 w-2 bg-red-500 rounded-full animate-pulse"></span>
+                    <span className="text-slate-900 font-semibold">Emergency Service</span>
+                  </div>
+                  <div className="text-slate-600">
+                    Available 24/7/365 for urgent HVAC emergencies
+                  </div>
+                </div>
               </div>
-            </aside>
+            </div>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
+
+      {/* Why Contact Us */}
+      <section className="py-20 px-4 bg-slate-100/80">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              Why Contact Pompano Beach House AC Repair?
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {benefits.map((benefit, index) => (
+              <div
+                key={index}
+                className="bg-slate-100/80 border border-slate-600/50 rounded-lg p-6 flex items-start gap-3"
+              >
+                <CheckCircle className="h-6 w-6 text-cyan-600 flex-shrink-0 mt-1" />
+                <span className="text-slate-600">{benefit}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto max-w-4xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              Frequently Asked Questions
+            </h2>
+          </div>
+
+          <div className="space-y-6">
+            {faqs.map((faq, index) => (
+              <div
+                key={index}
+                className="bg-slate-100/80 border border-slate-700/50 rounded-xl p-6"
+              >
+                <h3 className="text-xl font-bold text-slate-900 mb-3">{faq.question}</h3>
+                <p className="text-slate-600 leading-relaxed">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-20 px-4 bg-slate-100/80">
+        <div className="container mx-auto max-w-4xl text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+            Ready to Get Started?
+          </h2>
+          <p className="text-xl text-slate-600 mb-8">
+            Don't wait until a small problem becomes a major expense. Contact us today!
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="tel:+19542896718"
+              className="bg-cyan-600 hover:bg-cyan-700 text-slate-900 font-bold text-lg px-10 py-4 rounded-lg transition-all duration-200 hover:scale-105"
+            >
+              Call: (954) 289-6718
+            </a>
+            <a
+              href="#contact"
+              className="bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold text-lg px-10 py-4 rounded-lg transition-all duration-200 border-2 border-slate-600 hover:border-slate-500"
+            >
+              Fill Out Form
+            </a>
+          </div>
+          <p className="text-sm text-slate-500 mt-6">
+            Licensed | Insured | A+ BBB Rated | Lifetime Warranties | 24/7 Emergency Service
+          </p>
+        </div>
+      </section>
+
       <Footer />
-      <MobileCallBar />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-    </>
+    </main>
   );
 }

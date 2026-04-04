@@ -1,98 +1,226 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import Link from 'next/link';
+import Image from 'next/image';
+import { getAllServices } from '@/lib/services';
+import { CheckCircle, Zap, Diamond, Shield, Phone, Mail, Building2, Home, Search, Hammer, CloudLightning, FileText, Wind, Thermometer, Leaf, RefreshCw, Gauge } from 'lucide-react';
 
-import { brand } from "@/config/brand";
-import { services } from "@/config/services";
-import { getServiceIcon } from "@/lib/icons";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { MobileCallBar } from "@/components/layout/mobile-call-bar";
-import { CtaSection } from "@/components/shared/cta-section";
-import { Breadcrumb } from "@/components/shared/breadcrumb";
-import { getBreadcrumbSchema } from "@/lib/schema";
-
-export const metadata: Metadata = {
-  title: "HVAC Services | AC Repair, Installation & Maintenance",
-  description: `Full-spectrum HVAC services from ${brand.name} — AC repair, system installation, duct cleaning & maintenance across Boca Raton and Fort Lauderdale.`,
+export const metadata = {
+  title: 'Our Services | Pompano Beach House AC Repair',
+  description: 'Comprehensive HVAC services including residential repairs, commercial HVAC, AC installation, inspections, emergency HVAC repair, and duct cleaning assistance.',
 };
 
 export default function ServicesPage() {
-  const breadcrumbSchema = getBreadcrumbSchema([{ label: "Services" }]);
+  const services = getAllServices();
+
+  // Service icons component mapping
+  const ServiceIcon = ({ slug }: { slug: string }) => {
+    const iconClass = "h-8 w-8 text-cyan-600";
+    switch (slug) {
+      case 'ac-repair': return <Hammer className={iconClass} aria-hidden="true" />;
+      case 'ac-installation': return <Home className={iconClass} aria-hidden="true" />;
+      case 'hvac-maintenance': return <Search className={iconClass} aria-hidden="true" />;
+      case 'emergency-ac-service': return <Zap className={iconClass} aria-hidden="true" />;
+      case 'duct-cleaning': return <Wind className={iconClass} aria-hidden="true" />;
+      case 'thermostat-installation': return <Thermometer className={iconClass} aria-hidden="true" />;
+      case 'indoor-air-quality': return <Leaf className={iconClass} aria-hidden="true" />;
+      case 'commercial-hvac': return <Building2 className={iconClass} aria-hidden="true" />;
+      case 'heat-pump-services': return <RefreshCw className={iconClass} aria-hidden="true" />;
+      case 'ac-refrigerant-recharge': return <Gauge className={iconClass} aria-hidden="true" />;
+      default: return <Home className={iconClass} aria-hidden="true" />;
+    }
+  };
+
+  const serviceImages: Record<string, string> = {
+    'ac-repair': '/images/services/ac-repair.jpg',
+    'ac-installation': '/images/services/ac-installation.jpg',
+    'hvac-maintenance': '/images/services/hvac-maintenance.jpg',
+    'emergency-ac-service': '/images/services/emergency-hvac.jpg',
+    'duct-cleaning': '/images/services/duct-cleaning.jpg',
+    'thermostat-installation': '/images/services/ac-installation.jpg',
+    'indoor-air-quality': '/images/services/ac-repair.jpg',
+    'commercial-hvac': '/images/services/commercial-hvac.jpg',
+    'heat-pump-services': '/images/services/hvac-maintenance.jpg',
+    'ac-refrigerant-recharge': '/images/services/ac-repair.jpg',
+  };
 
   return (
-    <>
-      <Navbar />
-      <main id="main-content">
-        <section className="relative overflow-hidden border-b-2 border-border pb-16 pt-32 sm:pt-36">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.04] via-transparent to-accent/[0.03]" aria-hidden="true" />
-          <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <Breadcrumb items={[{ label: "Services" }]} />
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary">
-              What We Do
-            </p>
-            <h1 className="mt-4 max-w-3xl font-display text-balance font-semibold tracking-tight text-gray-900">
-              Full-spectrum HVAC services built for South Florida conditions.
-            </h1>
-            <p className="mt-4 max-w-2xl text-lg leading-8 text-gray-600">
-              Salt air corrodes coils. Year-round humidity overworks compressors. Our {brand.yearsInBusiness}-year team knows exactly how to diagnose, repair, and install systems that hold up in this climate.
-            </p>
+    <main className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800">
+      {/* Navigation */}
+      <nav className="py-4 px-4 border-b border-slate-700">
+        <div className="max-w-7xl mx-auto">
+          <Link href="/" className="text-cyan-600 hover:text-cyan-500 transition flex items-center gap-2">
+            ← Back to Home
+          </Link>
+        </div>
+      </nav>
+
+      {/* Hero Section with Background */}
+      <section className="relative py-24 px-4 overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/hero/hvac-hero.jpg"
+            alt="Professional HVAC services"
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-white/80"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/60 to-slate-900"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto text-center relative z-10">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
+            Our HVAC Services
+          </h1>
+          <p className="text-xl md:text-2xl text-slate-200 max-w-3xl mx-auto">
+            Professional HVAC solutions for residential and commercial properties.
+            From repairs to complete replacements, we've got you covered.
+          </p>
+        </div>
+      </section>
+
+      {/* Services Grid */}
+      <section className="py-12 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((service) => (
+              <Link
+                key={service.slug}
+                href={`/services/${service.slug}`}
+                className="group bg-slate-100/80 border border-slate-700 rounded-xl overflow-hidden hover:border-cyan-500/50 hover:bg-slate-50 transition-all duration-300 shadow-lg hover:shadow-cyan-600/10 hover:-translate-y-1"
+              >
+                {/* Service Image */}
+                <div className="relative h-48 overflow-hidden">
+                  <Image
+                    src={serviceImages[service.slug] || '/images/services/ac-repair.jpg'}
+                    alt={`${service.title} - Professional HVAC service`}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent"></div>
+
+                  {/* Icon Overlay */}
+                  <div className="absolute bottom-4 left-4">
+                    <div className="bg-white/80 rounded-full p-3 backdrop-blur-sm">
+                      <ServiceIcon slug={service.slug} />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-8">
+                  {/* Title */}
+                  <h2 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-cyan-600 transition-colors">
+                    {service.title.replace(/^#\s+/, '').split('\n')[0]}
+                  </h2>
+
+                  {/* Description */}
+                  {service.description && (
+                    <p className="text-slate-600 leading-relaxed mb-4 line-clamp-3">
+                      {service.description.substring(0, 150)}...
+                    </p>
+                  )}
+
+                  {/* Read More Link */}
+                  <div className="flex items-center gap-2 text-cyan-600 font-semibold group-hover:gap-3 transition-all">
+                    Learn More
+                    <span className="group-hover:translate-x-1 transition-transform">→</span>
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="section-shell">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="stagger-group grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {services.map((service) => {
-                const Icon = getServiceIcon(service.icon);
-                return (
-                  <Link
-                    key={service.slug}
-                    href={`/services/${service.slug}`}
-                    className="stagger-up chief-card group relative overflow-hidden rounded-md bg-white transition-all duration-300 hover:-translate-y-1 hover:border-primary/20 hover:shadow-xl hover:shadow-primary/[0.06]"
-                  >
-                    <div className="relative h-48 overflow-hidden">
-                      <Image
-                        src={service.image}
-                        alt={service.name}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 via-gray-900/10 to-transparent" />
-                      <div className="absolute bottom-3 left-4 flex size-10 items-center justify-center rounded-md bg-white/90 text-primary shadow-sm backdrop-blur-sm">
-                        <Icon className="size-5" />
-                      </div>
-                    </div>
+      {/* Why Choose Us Section */}
+      <section className="py-16 px-4 bg-slate-100/80 border-y border-slate-700">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl font-bold text-slate-900 text-center mb-12">
+            Why Choose Our HVAC Services?
+          </h2>
 
-                    <div className="p-5">
-                      <h2 className="font-display text-xl font-semibold text-gray-900">
-                        {service.name}
-                      </h2>
-                      <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-gray-600">
-                        {service.shortDescription}
-                      </p>
-                      <div className="mt-4 flex items-center gap-2 text-sm font-medium text-primary">
-                        Learn more
-                        <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="flex justify-center mb-4">
+                <CheckCircle className="h-12 w-12 text-cyan-600" aria-hidden="true" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Licensed & Insured</h3>
+              <p className="text-slate-600">
+                Fully licensed professionals with comprehensive insurance coverage
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="flex justify-center mb-4">
+                <Zap className="h-12 w-12 text-cyan-600" aria-hidden="true" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Fast Response</h3>
+              <p className="text-slate-600">
+                Quick turnaround times and 24/7 emergency services
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="flex justify-center mb-4">
+                <Diamond className="h-12 w-12 text-cyan-600" aria-hidden="true" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Quality Materials</h3>
+              <p className="text-slate-600">
+                Premium materials from trusted manufacturers
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="flex justify-center mb-4">
+                <Shield className="h-12 w-12 text-cyan-600" aria-hidden="true" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Warranty Protected</h3>
+              <p className="text-slate-600">
+                Comprehensive warranties on all workmanship
+              </p>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <CtaSection />
-      </main>
-      <Footer />
-      <MobileCallBar />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-    </>
+      {/* CTA Section */}
+      <section className="py-16 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+            Ready to Start Your Project?
+          </h2>
+          <p className="text-xl text-slate-600 mb-8">
+            Get in touch today for a free consultation and estimate. Our team is ready to help.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="tel:+19542896718"
+              className="inline-flex items-center justify-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-slate-900 font-bold px-8 py-4 rounded-lg transition shadow-lg shadow-cyan-600/20 text-lg"
+            >
+              <Phone className="h-5 w-5" aria-hidden="true" />
+              Call Now: (954) 289-6718
+            </a>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold px-8 py-4 rounded-lg transition border border-slate-600 text-lg"
+            >
+              <Mail className="h-5 w-5" aria-hidden="true" />
+              Request Free Estimate
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-12 px-4 border-t border-slate-700">
+        <div className="max-w-7xl mx-auto text-center">
+          <Link href="/" className="text-cyan-600 hover:text-cyan-500 transition text-lg">
+            ← Back to Home
+          </Link>
+          <p className="text-slate-500 mt-4">
+            &copy; {new Date().getFullYear()} Pompano Beach House AC Repair. All rights reserved.
+          </p>
+        </div>
+      </footer>
+    </main>
   );
 }

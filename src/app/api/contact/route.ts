@@ -1,118 +1,112 @@
-import { NextResponse, after } from "next/server";
-import { appendFileSync } from "fs";
+import { NextRequest, NextResponse } from 'next/server';
 
-interface ContactPayload {
+// Type for form data
+interface ContactFormData {
   name: string;
-  phone: string;
-  email?: string;
-  message?: string;
-  _hp?: string;
-}
-
-interface LeadRecord {
-  timestamp: string;
-  name: string;
-  phone: string;
   email: string;
-  message: string;
-  source: string;
+  phone: string;
+  service: string;
+  message?: string;
 }
 
-/** Append lead to /tmp/leads.jsonl (ephemeral on Vercel, persistent locally). */
-function storeLeadToFile(lead: LeadRecord): void {
+// Email validation regex
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Phone validation regex (supports various formats)
+const PHONE_REGEX = /^[\d\s()+-]{10,}$/;
+
+// Valid service types
+const VALID_SERVICES = ['repair', 'replacement', 'storm', 'inspection', 'insurance', 'other'];
+
+/**
+ * POST /api/contact
+ * Handles contact form submissions
+ */
+export async function POST(request: NextRequest) {
   try {
-    appendFileSync("/tmp/leads.jsonl", JSON.stringify(lead) + "\n", "utf-8");
-  } catch (err) {
-    console.error("[lead-storage] Failed to write to /tmp/leads.jsonl", err);
-  }
-}
+    // Parse request body
+    const body: ContactFormData = await request.json();
 
-/** POST lead data to a webhook URL (Zapier, Make, n8n, Slack, etc.). Fire-and-forget. */
-function sendWebhook(lead: LeadRecord): void {
-  const url = process.env.LEAD_WEBHOOK_URL;
-  if (!url) return;
+    // Validate required fields
+    const errors: Record<string, string> = {};
 
-  fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(lead),
-  }).catch((err) => {
-    console.error("[lead-webhook] Webhook delivery failed", err);
-  });
-}
-
-/** Send email notification via Resend API. Fire-and-forget. */
-function sendResendEmail(lead: LeadRecord): void {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) return;
-
-  const to = process.env.LEAD_NOTIFY_EMAIL || "info@chiefhvacrepair.com";
-
-  fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      from: "HVAC Repair Chief <leads@chiefhvacrepair.com>",
-      to: [to],
-      subject: `New Lead: ${lead.name} — ${lead.phone}`,
-      html: [
-        "<h2>New Lead from Website</h2>",
-        `<p><strong>Name:</strong> ${lead.name}</p>`,
-        `<p><strong>Phone:</strong> ${lead.phone}</p>`,
-        `<p><strong>Email:</strong> ${lead.email}</p>`,
-        `<p><strong>Message:</strong> ${lead.message}</p>`,
-        `<p><em>Submitted at ${lead.timestamp}</em></p>`,
-      ].join(""),
-    }),
-  }).catch((err) => {
-    console.error("[lead-email] Resend delivery failed", err);
-  });
-}
-
-export async function POST(request: Request) {
-  try {
-    const body = (await request.json()) as ContactPayload;
-    const { name, phone, email, message, _hp } = body;
-
-    // Honeypot trap — bots fill hidden fields, real users don't
-    if (_hp) {
-      return NextResponse.json({ success: true });
+    if (!body.name || body.name.trim().length < 2) {
+      errors.name = 'Name must be at least 2 characters';
     }
 
-    if (!name?.trim() || !phone?.trim()) {
+    if (!body.email || !EMAIL_REGEX.test(body.email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+
+    if (!body.phone || !PHONE_REGEX.test(body.phone)) {
+      errors.phone = 'Please enter a valid phone number';
+    }
+
+    if (!body.service || !VALID_SERVICES.includes(body.service)) {
+      errors.service = 'Please select a valid service';
+    }
+
+    // If there are validation errors, return them
+    if (Object.keys(errors).length > 0) {
       return NextResponse.json(
-        { error: "Name and phone are required." },
+        {
+          success: false,
+          errors,
+          message: 'Please fix the errors in the form'
+        },
         { status: 400 }
       );
     }
 
-    const lead: LeadRecord = {
-      timestamp: new Date().toISOString(),
-      name: name.trim(),
-      phone: phone.trim(),
-      email: email?.trim() ?? "",
-      message: message?.trim() ?? "",
-      source: "hvac-repair-chief-website",
-    };
+    // Log the submission (in production, you'd send email or save to database)
+    console.log('='.repeat(60));
+    console.log('NEW CONTACT FORM SUBMISSION');
+    console.log('='.repeat(60));
+    console.log('Timestamp:', new Date().toISOString());
+    console.log('Name:', body.name);
+    console.log('Email:', body.email);
+    console.log('Phone:', body.phone);
+    console.log('Service:', body.service);
+    console.log('Message:', body.message || '(none)');
+    console.log('='.repeat(60));
 
-    // Always log to console as fallback
-    console.log("[Contact Form Submission]", lead);
+    // TODO: In production, add one of these:
+    // - Send email via SendGrid, Resend, or Nodemailer
+    // - Save to database (Supabase, MongoDB, PostgreSQL)
+    // - Send to CRM (HubSpot, Salesforce, etc.)
+    // - Send to Slack/Discord for notifications
 
-    // Schedule notifications after the response is sent (non-blocking)
-    after(() => {
-      storeLeadToFile(lead);
-      sendWebhook(lead);
-      sendResendEmail(lead);
+    // Return success response
+    return NextResponse.json({
+      success: true,
+      message: 'Thank you for your inquiry! We will contact you within 1 hour during business hours.',
+      data: {
+        submittedAt: new Date().toISOString(),
+        name: body.name,
+        service: body.service
+      }
     });
 
-    return NextResponse.json({ success: true });
-  } catch {
+  } catch (error) {
+    // Log error for debugging
+    console.error('Contact form error:', error);
+
+    // Return generic error response
     return NextResponse.json(
-      { error: "Invalid request." },
-      { status: 400 }
+      {
+        success: false,
+        message: 'An error occurred while processing your request. Please try again or call us directly.',
+        error: process.env.NODE_ENV === 'development' ? String(error) : undefined
+      },
+      { status: 500 }
     );
   }
+}
+
+// Optionally handle GET requests (for health checks)
+export async function GET() {
+  return NextResponse.json({
+    status: 'ok',
+    message: 'Contact API endpoint is running'
+  });
 }

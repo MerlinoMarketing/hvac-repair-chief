@@ -1,239 +1,373 @@
-import type { Metadata } from "next";
-import Image from "next/image";
-import { Award, BadgeCheck, Building2, CheckCircle2, Clock3, MapPin, Shield, ThumbsUp, Users, XCircle } from "lucide-react";
-
-import { brand } from "@/config/brand";
-import { locations } from "@/config/locations";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { MobileCallBar } from "@/components/layout/mobile-call-bar";
-import { CtaSection } from "@/components/shared/cta-section";
-import { Breadcrumb } from "@/components/shared/breadcrumb";
-import { getBreadcrumbSchema, getAboutPageSchema } from "@/lib/schema";
+import { Navigation } from '@/components/landing/Navigation';
+import { Footer } from '@/components/landing/Footer';
+import { Shield, Award, Users, Heart, CheckCircle, Star } from 'lucide-react';
+import Image from 'next/image';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "About Us | 12 Years of Chief-Level HVAC Expertise",
-  description: `Meet the ${brand.name} team — ${brand.yearsInBusiness} years of FL-licensed HVAC service in Boca Raton & Fort Lauderdale. EPA-certified, fully insured crews.`,
+  title: 'About Pompano Beach House AC Repair | Trusted HVAC Contractor',
+  description: 'Meet Pompano Beach House AC Repair - your trusted HVAC Contractor since 1998. Licensed, A+ BBB rated, 25+ years experience. Family-owned, locally committed. Learn our story!',
 };
 
+const stats = [
+  { number: '25+', label: 'Years in Business', color: 'text-cyan-600' },
+  { number: '5,000+', label: 'Systems Serviced', color: 'text-blue-400' },
+  { number: '98%', label: 'Customer Satisfaction', color: 'text-green-400' },
+  { number: '4.9/5', label: 'Average Rating', color: 'text-purple-400' },
+];
+
+const values = [
+  {
+    icon: Shield,
+    title: 'Honesty Above All',
+    description: 'We recommend what you need, not what maximizes our profit. If your HVAC system doesn\'t need replacement, we tell you. Transparent pricing with no hidden fees.',
+  },
+  {
+    icon: Award,
+    title: 'Quality Without Compromise',
+    description: 'Following manufacturer specifications exactly. Using premium materials from trusted brands. Proper installation, never shortcuts. Multiple quality inspections throughout projects.',
+  },
+  {
+    icon: Users,
+    title: 'Respect for Your Home',
+    description: 'Treating your property like it\'s our own. Protecting landscaping and belongings. Working efficiently to minimize disruption. Daily cleanup during projects.',
+  },
+  {
+    icon: Heart,
+    title: 'Community Investment',
+    description: 'Supporting local schools, sports, and charities. Hiring locally and paying fair wages. Partnering with local suppliers. Giving back to our community.',
+  },
+];
+
+const certifications = [
+  'NATE-Certified Technicians (Top Industry Standard)',
+  'Carrier Factory Authorized Dealer',
+  'Trane Comfort Specialist',
+  'Licensed & Bonded',
+  'A+ BBB Rating',
+  'NRCA Member (National HVAC Contractors Association)',
+];
+
+const testimonials = [
+  {
+    name: 'John & Mary S.',
+    location: 'Pompano Beach',
+    quote: 'We\'ve used Pompano Beach House AC Repair three times over the years - our home, our rental property, and my mother-in-law\'s house. Every experience has been exceptional. They\'re honest, professional, and their work is impeccable.',
+    service: 'AC Installation (2), Emergency HVAC Service',
+    years: 'Customer Since 2015',
+  },
+  {
+    name: 'Michael T.',
+    location: 'Deerfield Beach',
+    quote: 'After getting four quotes, Pompano Beach House AC Repair wasn\'t the cheapest. But they were the most thorough and transparent. The crew was incredible - clean, respectful, and the quality is obvious. Worth every penny.',
+    service: 'Complete AC Installation',
+    years: 'Customer Since 2021',
+  },
+];
+
 export default function AboutPage() {
-  const breadcrumbSchema = getBreadcrumbSchema([{ label: "About" }]);
-  const aboutPageSchema = getAboutPageSchema();
-
   return (
-    <>
-      <Navbar />
-      <main id="main-content">
-        <section className="relative overflow-hidden border-b-2 border-border pb-16 pt-32 sm:pt-36">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.04] via-transparent to-accent/[0.03]" aria-hidden="true" />
-          <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <Breadcrumb items={[{ label: "About" }]} />
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary">
-              Our Story
-            </p>
-            <h1 className="mt-4 max-w-3xl font-display text-balance font-semibold tracking-tight text-gray-900">
-              {brand.yearsInBusiness} years of chief-level HVAC expertise in South Florida.
+    <main className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800">
+      <Navigation />
+
+      {/* Hero Section with Background */}
+      <section className="relative pt-32 pb-20 px-4 overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/about/team-hero.jpg"
+            alt="Professional HVAC team"
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-white/80"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/60 to-slate-900"></div>
+        </div>
+
+        <div className="container mx-auto max-w-6xl relative z-10">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+              About <span className="text-cyan-400">Pompano Beach House AC Repair</span>
             </h1>
-            <p className="mt-4 max-w-2xl text-lg leading-8 text-gray-600">
-              {brand.name} was built on a straightforward principle: diagnose honestly, price transparently, and fix it right the first time. That approach earned us the trust of homeowners across Broward and Palm Beach counties — and it still drives every service call today.
+            <p className="text-xl text-slate-200 max-w-3xl mx-auto leading-relaxed">
+              Your trusted HVAC partner since 1998. We're not a national chain or storm chasers -
+              we're your neighbors, locally owned and deeply committed to this community.
             </p>
           </div>
-        </section>
 
-        <section className="section-shell">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid gap-12 lg:grid-cols-2">
-              <div className="space-y-8">
-                <div className="space-y-4">
-                  <h2 className="font-display text-2xl font-semibold text-gray-900">From one truck to a two-county operation</h2>
-                  <p className="text-base leading-8 text-gray-600">
-                    In {new Date().getFullYear() - brand.yearsInBusiness}, our founder — a 15-year HVAC field veteran — launched {brand.name} out of a single service van in Boca Raton. The early jobs came from neighbors and word-of-mouth referrals, earned by showing up on time, diagnosing accurately, and never padding an invoice. That reputation spread quickly through Palm Beach County, and within three years we expanded into Fort Lauderdale and greater Broward County.
-                  </p>
-                  <p className="text-base leading-8 text-gray-600">
-                    Today we field a team of Florida-licensed, EPA 608-certified technicians with dedicated crews in each market. Every technician is trained to handle South Florida&apos;s specific HVAC challenges — coastal salt-air corrosion that eats through condenser coils, 75-80% ambient humidity that overloads compressors, and cooling loads that run 10 months a year. We stock OEM parts on every truck so most repairs are completed in one visit.
-                  </p>
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className={`text-5xl md:text-6xl font-bold ${stat.color} mb-2`}>
+                  {stat.number}
                 </div>
-
-                <div className="shield-accent space-y-4 pl-6">
-                  <h3 className="text-lg font-semibold text-gray-900">The chief-level difference</h3>
-                  <ul className="space-y-3">
-                    {[
-                      "Live dispatchers answer every call — 24 hours, 7 days, no voicemail loops",
-                      "Written estimates presented before work starts, with itemized parts and labor",
-                      "EPA 608-certified, background-checked technicians on every service call",
-                      "Fully stocked trucks carry OEM parts for Carrier, Trane, Lennox, Rheem, and Goodman",
-                      "Written warranty covering all labor and installed materials",
-                    ].map((item) => (
-                      <li key={item} className="text-sm leading-7 text-gray-600">
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
+                <div className="text-slate-500">
+                  {stat.label}
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-              <div className="space-y-6">
-                <div className="chief-card relative overflow-hidden rounded-md">
-                  <div className="relative min-h-[320px]">
-                    <Image
-                      src={brand.images.about}
-                      alt={`${brand.name} team`}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="object-cover"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid gap-4 sm:grid-cols-2">
-                  {[
-                    { icon: BadgeCheck, title: brand.license, desc: "FL mechanical contractor credentials" },
-                    { icon: Shield, title: brand.insurance, desc: "General liability + workers' comp" },
-                    { icon: Building2, title: "Two-County Coverage", desc: "Broward & Palm Beach dedicated crews" },
-                    { icon: ThumbsUp, title: `${brand.rating}★ Google Rating`, desc: `${brand.reviewCount}+ verified homeowner reviews` },
-                    { icon: Clock3, title: "24/7 Emergency Dispatch", desc: "Sub-60-minute average response" },
-                    { icon: Users, title: `${brand.yearsInBusiness} Years in Business`, desc: "South Florida climate specialists" },
-                  ].map(({ icon: Icon, title, desc }) => (
-                    <div key={title} className="chief-card rounded-md bg-white p-4 pl-5">
-                      <div className="flex items-center gap-3">
-                        <Icon className="size-5 text-primary" />
-                        <div>
-                          <p className="text-sm font-semibold text-gray-900">{title}</p>
-                          <p className="text-xs text-gray-500">{desc}</p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+      {/* Our Story */}
+      <section className="py-20 px-4 bg-slate-100/80">
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Image Column */}
+            <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+              <Image
+                src="/images/about/office.jpg"
+                alt="Pompano Beach House AC Repair team and company headquarters"
+                fill
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent"></div>
+              <div className="absolute bottom-6 left-6 right-6">
+                <div className="bg-cyan-600/90 backdrop-blur-sm rounded-lg p-4 text-slate-900">
+                  <div className="font-bold text-lg mb-1">Since 1998</div>
+                  <div className="text-sm">Serving our community for over 25 years</div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
 
-        {/* Certifications & Credentials */}
-        <section className="section-shell border-t-2 border-border">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary">
-              Credentials &amp; Certifications
-            </p>
-            <h2 className="mt-4 font-display text-2xl font-semibold text-gray-900">
-              Verified qualifications you can count on.
+            {/* Text Column */}
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+                Our Story
+              </h2>
+              <div className="space-y-4 text-slate-600 leading-relaxed">
+                <p>
+                  Pompano Beach House AC Repair was founded in 1998 by a local contractor who saw a gap in the market:
+                  homeowners wanted honest, quality HVAC services from contractors who'd be around for the long haul.
+                </p>
+                <p>
+                  Starting with a single crew and a commitment to excellence, we built our reputation one service call
+                  at a time. Our first customer took a chance on a new company because we took the time to
+                  explain options honestly and stood behind the work with a personal guarantee.
+                </p>
+                <p>
+                  Over 25 years later, that customer still refers friends to us, and that's the foundation
+                  we built this company on: exceptional work, honest service, and relationships that last.
+                </p>
+                <p className="font-semibold text-slate-900">
+                  Today, we employ skilled HVAC professionals, operate multiple crews, and have installed
+                  or repaired over 5,000+ AC systems across our service area.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-cyan-600/10 to-teal-500/10 border-2 border-cyan-600/30 rounded-2xl p-8">
+              <h3 className="text-2xl font-bold text-slate-900 mb-6">What Sets Us Apart</h3>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-6 w-6 text-cyan-600 flex-shrink-0 mt-1" />
+                  <span className="text-slate-600">
+                    <strong className="text-slate-900">Family-Owned & Locally Committed</strong> -
+                    We're invested in this community for the long haul
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-6 w-6 text-cyan-600 flex-shrink-0 mt-1" />
+                  <span className="text-slate-600">
+                    <strong className="text-slate-900">Licensed & Certified Experts</strong> -
+                    NATE-Certified (industry gold standard)
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-6 w-6 text-cyan-600 flex-shrink-0 mt-1" />
+                  <span className="text-slate-600">
+                    <strong className="text-slate-900">Transparent Pricing</strong> -
+                    No hidden fees, detailed estimates before work starts
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-6 w-6 text-cyan-600 flex-shrink-0 mt-1" />
+                  <span className="text-slate-600">
+                    <strong className="text-slate-900">Comfort Guarantee Warranty</strong> -
+                    We stand behind our work for decades, not just years
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Values */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              Our Core Values
             </h2>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {[
-                { icon: BadgeCheck, title: "FL State HVAC License", desc: "Licensed mechanical contractor in the State of Florida, meeting all bonding and insurance requirements." },
-                { icon: Award, title: "EPA 608 Certified", desc: "All technicians hold EPA Section 608 Universal certification for safe refrigerant handling." },
-                { icon: Shield, title: "NATE Certified Techs", desc: "North American Technician Excellence certified — the industry gold standard for HVAC competency." },
-                { icon: ThumbsUp, title: "BBB A+ Rating", desc: "Accredited by the Better Business Bureau with an A+ rating and zero unresolved complaints." },
-                { icon: Building2, title: "Full Insurance Coverage", desc: "General liability and workers' compensation coverage protects your home and our crew on every job." },
-                { icon: Clock3, title: `${brand.yearsInBusiness}+ Years in Business`, desc: "Established track record serving Broward and Palm Beach County homeowners." },
-              ].map(({ icon: Icon, title, desc }) => (
-                <div key={title} className="chief-card rounded-md bg-white p-5">
-                  <div className="flex items-start gap-3">
-                    <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-primary/10">
-                      <Icon className="size-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-gray-900">{title}</p>
-                      <p className="mt-1 text-xs leading-5 text-gray-500">{desc}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Why Choose Us comparison */}
-        <section className="section-shell border-t-2 border-border bg-secondary">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <p className="text-center text-sm font-semibold uppercase tracking-[0.3em] text-primary">
-              The Difference
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              These aren't just words on a wall - they're the principles that guide every decision we make.
             </p>
-            <h2 className="mt-4 text-center font-display text-2xl font-semibold text-gray-900">
-              Why homeowners choose {brand.name}.
-            </h2>
-            <div className="mt-10 grid gap-6 lg:grid-cols-2">
-              {/* Us column */}
-              <div className="chief-card rounded-md border-2 border-primary/20 bg-white p-6">
-                <p className="text-sm font-bold uppercase tracking-[0.2em] text-primary">{brand.name}</p>
-                <ul className="mt-4 space-y-3">
-                  {[
-                    "Written estimates before work begins — no surprises",
-                    "FL licensed, EPA certified, NATE-trained technicians",
-                    "Same-day service with sub-60-minute emergency response",
-                    "24/7 live dispatchers — no voicemail loops",
-                    "OEM parts stocked on every truck",
-                    "Written warranty on all labor and materials",
-                    "Transparent pricing with no hidden fees",
-                    `${brand.rating}★ Google rating from ${brand.reviewCount}+ verified reviews`,
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-sm text-gray-700">
-                      <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-green-500" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              {/* Others column */}
-              <div className="chief-card rounded-md bg-white p-6">
-                <p className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400">Typical HVAC Companies</p>
-                <ul className="mt-4 space-y-3">
-                  {[
-                    "Verbal quotes that change once work starts",
-                    "Unlicensed or under-certified technicians",
-                    "Multi-day wait times for service appointments",
-                    "Automated phone systems and long hold times",
-                    "Aftermarket parts that void manufacturer warranties",
-                    "Limited or no labor warranty",
-                    "Hidden diagnostic fees and trip charges",
-                    "Few or unverified online reviews",
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-sm text-gray-400">
-                      <XCircle className="mt-0.5 size-4 shrink-0 text-gray-300" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
           </div>
-        </section>
 
-        {/* Cities we serve */}
-        <section className="section-shell border-t-2 border-border bg-secondary">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h2 className="font-display text-2xl font-semibold text-gray-900">Cities we serve</h2>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {locations.map((loc) => (
-                <a
-                  key={loc.slug}
-                  href={`/locations/${loc.slug}`}
-                  className="chief-card group flex items-center gap-3 rounded-md bg-white p-4 transition hover:border-primary/30"
-                >
-                  <MapPin className="size-5 text-primary" />
+          <div className="grid md:grid-cols-2 gap-8">
+            {values.map((value, index) => (
+              <div
+                key={index}
+                className="bg-slate-100/80 border border-slate-700/50 rounded-xl p-8 hover:border-cyan-600/30 transition-all"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="bg-cyan-600/10 p-3 rounded-lg flex-shrink-0">
+                    <value.icon className="h-8 w-8 text-cyan-600" />
+                  </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-900">{loc.city}</p>
-                    <p className="text-xs text-gray-500">{loc.phone.replace("+1 ", "")}</p>
+                    <h3 className="text-xl font-bold text-slate-900 mb-3">{value.title}</h3>
+                    <p className="text-slate-600 leading-relaxed">{value.description}</p>
                   </div>
-                </a>
-              ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Certifications */}
+      <section className="py-20 px-4 bg-slate-100/80">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              Credentials & Certifications
+            </h2>
+            <p className="text-xl text-slate-600">
+              We maintain the highest industry standards and certifications.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {certifications.map((cert, index) => (
+              <div
+                key={index}
+                className="bg-gradient-to-br from-slate-700/50 to-slate-600/50 border border-slate-600/50 rounded-lg p-6 flex items-center gap-4"
+              >
+                <Award className="h-8 w-8 text-cyan-600 flex-shrink-0" />
+                <span className="text-slate-900 font-semibold">{cert}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* License Info */}
+          <div className="mt-12 bg-gradient-to-r from-cyan-600/10 to-teal-500/10 border-2 border-cyan-600/30 rounded-2xl p-8 text-center">
+            <h3 className="text-2xl font-bold text-slate-900 mb-4">
+              Fully Licensed, Bonded & Insured
+            </h3>
+            <p className="text-slate-600 mb-6 max-w-2xl mx-auto">
+              License #334326 • $2M General Liability • Full Workers' Compensation Coverage
+            </p>
+            <div className="flex flex-wrap justify-center gap-4 text-sm text-slate-500">
+              <span className="flex items-center gap-2">
+                <Shield className="h-4 w-4 text-cyan-600" />
+                Your protection guaranteed
+              </span>
+              <span className="flex items-center gap-2">
+                <Shield className="h-4 w-4 text-cyan-600" />
+                Manufacturer warranties valid
+              </span>
+              <span className="flex items-center gap-2">
+                <Award className="h-4 w-4 text-cyan-600" />
+                BBB A+ Rating
+              </span>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <CtaSection />
-      </main>
+      {/* Customer Testimonials */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              What Our Customers Say
+            </h2>
+            <p className="text-xl text-slate-600">
+              Don't just take our word for it - hear from homeowners who trusted us.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={index}
+                className="bg-slate-100/80 border border-slate-700/50 rounded-xl p-8"
+              >
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 text-cyan-600 fill-cyan-600" />
+                  ))}
+                </div>
+                <p className="text-slate-600 leading-relaxed mb-6 italic">
+                  "{testimonial.quote}"
+                </p>
+                <div className="border-t border-slate-700 pt-4">
+                  <div className="font-semibold text-slate-900">{testimonial.name}</div>
+                  <div className="text-sm text-slate-500">{testimonial.location}</div>
+                  <div className="text-sm text-cyan-600 mt-2">{testimonial.service}</div>
+                  <div className="text-xs text-slate-500 mt-1">{testimonial.years}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Rating Summary */}
+          <div className="bg-gradient-to-r from-slate-800 to-slate-700 border border-slate-600/50 rounded-2xl p-8">
+            <div className="grid md:grid-cols-3 gap-8 text-center">
+              <div>
+                <div className="text-5xl font-bold text-cyan-600 mb-2">4.9/5</div>
+                <div className="text-slate-600">Average Rating</div>
+                <div className="flex justify-center gap-1 mt-2">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 text-cyan-600 fill-cyan-600" />
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div className="text-5xl font-bold text-blue-400 mb-2">500+</div>
+                <div className="text-slate-600">5-Star Reviews</div>
+                <div className="text-sm text-slate-500 mt-2">Google & Facebook</div>
+              </div>
+              <div>
+                <div className="text-5xl font-bold text-green-400 mb-2">85%</div>
+                <div className="text-slate-600">Referral Business</div>
+                <div className="text-sm text-slate-500 mt-2">Customer Satisfaction</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-4 bg-slate-100/80">
+        <div className="container mx-auto max-w-4xl text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+            Ready to Experience the Pompano Beach House AC Repair Difference?
+          </h2>
+          <p className="text-xl text-slate-600 mb-8">
+            Whether you need emergency repairs, routine maintenance, or complete AC installation,
+            we're here to serve you with honesty, quality, and professionalism.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="/contact"
+              className="bg-cyan-600 hover:bg-cyan-700 text-slate-900 font-bold text-lg px-10 py-4 rounded-lg transition-all duration-200 hover:scale-105"
+            >
+              Get Free Estimate
+            </a>
+            <a
+              href="tel:+19542896718"
+              className="bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold text-lg px-10 py-4 rounded-lg transition-all duration-200 border-2 border-slate-600 hover:border-slate-500"
+            >
+              Call: (954) 289-6718
+            </a>
+          </div>
+        </div>
+      </section>
+
       <Footer />
-      <MobileCallBar />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageSchema) }}
-      />
-    </>
+    </main>
   );
 }

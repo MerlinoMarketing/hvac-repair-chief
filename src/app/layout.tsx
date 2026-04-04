@@ -1,103 +1,46 @@
-import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-
-import { brand } from "@/config/brand";
-import { getOrganizationSchema, getWebSiteSchema } from "@/lib/schema";
-
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import { SITE } from "@/lib/constants";
 import "./globals.css";
 
-const COLOR_RE = /^(oklch\([^)]+\)|#[\da-fA-F]{3,8}|rgb\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\)|hsl\(\d{1,3},\s*\d{1,3}%?,\s*\d{1,3}%?\))$/;
-
-function sanitizeColor(value: string, fallback: string): string {
-  return COLOR_RE.test(value.trim()) ? value.trim() : fallback;
-}
-
-function resolveOgImage(path: string): string {
-  if (path.startsWith("http://") || path.startsWith("https://")) return path;
-  const base = brand.website.replace(/\/$/, "");
-  return `${base}${path.startsWith("/") ? "" : "/"}${path}`;
-}
-
-const bricolageGrotesque = Bricolage_Grotesque({
-  variable: "--font-heading",
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
-  display: "swap",
-});
-
-const geist = Geist({
-  variable: "--font-body",
-  subsets: ["latin"],
-  display: "swap",
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-mono-family",
+  variable: "--font-geist-mono",
   subsets: ["latin"],
-  display: "swap",
 });
 
-function getMetadataBase() {
-  try {
-    return new URL(brand.website);
-  } catch {
-    return new URL("https://example.com");
-  }
-}
-
 export const metadata: Metadata = {
-  metadataBase: getMetadataBase(),
   title: {
-    default: `${brand.name} — South Florida's Commanding HVAC Authority`,
-    template: `%s | ${brand.name} — South Florida HVAC Experts`,
+    default: `${SITE.name} | Expert HVAC Services in Fort Lauderdale, FL`,
+    template: `%s | ${SITE.name}`,
   },
-  description: `${brand.yearsInBusiness} years of chief-level AC repair, installation & maintenance in Boca Raton & Fort Lauderdale. 24/7 emergency service, upfront pricing.`,
+  description: SITE.description,
+  keywords:
+    "AC repair Fort Lauderdale, HVAC services, air conditioning repair, AC installation, emergency AC repair, duct cleaning, Fort Lauderdale FL, Broward County HVAC",
   openGraph: {
-    title: `${brand.name} — South Florida's Commanding HVAC Authority`,
-    description: brand.tagline,
+    title: `${SITE.name} - Professional HVAC Services`,
+    description: SITE.description,
     type: "website",
-    siteName: brand.name,
-    url: brand.website,
     locale: "en_US",
-    images: [
-      {
-        url: resolveOgImage(brand.images.hero),
-        width: 1200,
-        height: 630,
-        alt: `${brand.name} hero image`,
-      },
-    ],
+    url: SITE.url,
+    siteName: SITE.name,
   },
   twitter: {
     card: "summary_large_image",
-    title: brand.name,
-    description: brand.tagline,
-    images: [resolveOgImage(brand.images.hero)],
-  },
-  alternates: {
-    canonical: brand.website,
+    title: SITE.name,
+    description: SITE.description,
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
   },
-};
-
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f5f7f8" },
-    { media: "(prefers-color-scheme: dark)", color: "#f5f7f8" },
-  ],
+  alternates: {
+    canonical: SITE.url,
+  },
 };
 
 export default function RootLayout({
@@ -105,40 +48,109 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: SITE.name,
+    url: SITE.url,
+    telephone: SITE.phone,
+    email: SITE.email,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: SITE.address.street,
+      addressLocality: SITE.address.city,
+      addressRegion: SITE.address.state,
+      postalCode: SITE.address.zip,
+      addressCountry: "US",
+    },
+    areaServed: SITE.serviceAreas.map((area) => ({
+      "@type": "City",
+      name: `${area}, FL`,
+    })),
+  };
+
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "HVACBusiness",
+    name: SITE.name,
+    url: SITE.url,
+    telephone: SITE.phone,
+    email: SITE.email,
+    image: `${SITE.url}/images/hero/hvac-hero.jpg`,
+    priceRange: "$$",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: SITE.address.street,
+      addressLocality: SITE.address.city,
+      addressRegion: SITE.address.state,
+      postalCode: SITE.address.zip,
+      addressCountry: "US",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: SITE.geo.lat,
+      longitude: SITE.geo.lng,
+    },
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "07:00",
+        closes: "19:00",
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: "Saturday",
+        opens: "08:00",
+        closes: "17:00",
+      },
+    ],
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      bestRating: "5",
+      worstRating: "1",
+      ratingCount: "387",
+      reviewCount: "312",
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "HVAC Services",
+      itemListElement: [
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "AC Repair" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "AC Installation" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "HVAC Maintenance" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Emergency AC Service" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Duct Cleaning" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Thermostat Installation" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Indoor Air Quality" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Commercial HVAC" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Heat Pump Services" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "AC Refrigerant Recharge" } },
+      ],
+    },
+  };
+
   return (
-    <html
-      lang="en"
-      className={`${bricolageGrotesque.variable} ${geist.variable} ${geistMono.variable}`}
-    >
+    <html lang="en">
       <head>
-        <style
+        <script
+          type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: `:root { --theme-primary: ${sanitizeColor(brand.theme.primary, "oklch(0.62 0.04 200)")}; --theme-accent: ${sanitizeColor(brand.theme.accent, "oklch(0.66 0.12 60)")}; }`,
+            __html: JSON.stringify(organizationSchema),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessSchema),
           }}
         />
       </head>
-      <body className="min-h-screen bg-background pb-20 font-sans text-foreground antialiased md:pb-0">
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-primary focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary"
-        >
-          Skip to main content
-        </a>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
         {children}
-        <Analytics />
-        <SpeedInsights />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getOrganizationSchema()),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getWebSiteSchema()),
-          }}
-        />
       </body>
     </html>
   );

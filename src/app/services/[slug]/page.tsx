@@ -1,370 +1,536 @@
-import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { CheckCircle2, Phone, Shield, Star, Lightbulb, Award, ArrowRight } from "lucide-react";
+import Link from 'next/link';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
+import { getServiceWithHtml, getServiceSlugs } from '@/lib/services';
+import { Navigation } from '@/components/landing/Navigation';
+import { Footer } from '@/components/landing/Footer';
+import { BeforeAfterSlider } from '@/components/landing/BeforeAfterSlider';
+import { TestimonialCard } from '@/components/landing/TestimonialCard';
+import { InlineCTA } from '@/components/landing/InlineCTA';
+import { Phone, Shield, Clock, Award, CheckCircle, Star, Users, ArrowRight } from 'lucide-react';
 
-import { brand } from "@/config/brand";
-import { services } from "@/config/services";
-import { locations } from "@/config/locations";
-import { renderServiceIcon, getServiceIcon } from "@/lib/icons";
-import { toTel } from "@/lib/utils";
-import { getServiceSchema, getFaqSchema, getBreadcrumbSchema } from "@/lib/schema";
-import { Breadcrumb } from "@/components/shared/breadcrumb";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { MobileCallBar } from "@/components/layout/mobile-call-bar";
-import { CtaSection } from "@/components/shared/cta-section";
-import { Button } from "@/components/ui/button";
-
-const mainPhone = locations[0].phone;
-
-export function generateStaticParams() {
-  return services.map((service) => ({
-    slug: service.slug,
-  }));
+interface PageProps {
+  params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
+// Service-specific data
+const serviceData: Record<string, {
+  heroImage: string;
+  beforeAfter: { before: string; after: string; title: string };
+  features: string[];
+  testimonial: { quote: string; name: string; location: string };
+  stats: { value: string; label: string }[];
+}> = {
+  'ac-installation': {
+    heroImage: '/images/services/ac-installation.jpg',
+    beforeAfter: {
+      before: '/images/before-after/replacement-before-1.jpg',
+      after: '/images/before-after/replacement-after-1.jpg',
+      title: 'Complete AC System Replacement',
+    },
+    features: [
+      'Manual J load calculation for proper sizing',
+      'All major brands: Carrier, Trane, Lennox, Rheem',
+      'Up to 25-year manufacturer warranties',
+      'High-efficiency SEER rated systems',
+      'Ductwork inspection and modification',
+      'Job site cleanup guarantee',
+    ],
+    testimonial: {
+      quote: 'They replaced our old 10 SEER system with a 16 SEER unit. Our electric bill dropped by over $80 a month. Professional crew, clean install, highly recommend.',
+      name: 'Robert & Susan M.',
+      location: 'Pompano Beach, FL',
+    },
+    stats: [
+      { value: '500+', label: 'Systems Installed' },
+      { value: '1-2', label: 'Day Completion' },
+      { value: '25yr', label: 'Warranty' },
+    ],
+  },
+  'ac-repair': {
+    heroImage: '/images/services/ac-repair.jpg',
+    beforeAfter: {
+      before: '/images/before-after/repair-before-1.jpg',
+      after: '/images/before-after/repair-after-1.jpg',
+      title: 'AC System Repair',
+    },
+    features: [
+      'Same-day emergency repairs',
+      'Electronic diagnostic testing',
+      'All major brands serviced',
+      'Capacitor, compressor, and motor repairs',
+      'Refrigerant leak detection and recharge',
+      '1-year repair warranty',
+    ],
+    testimonial: {
+      quote: 'AC stopped working on the hottest day of the year. They came out the same afternoon, found a blown capacitor, and had us cool again in under an hour. Great service!',
+      name: 'Jennifer K.',
+      location: 'Deerfield Beach, FL',
+    },
+    stats: [
+      { value: '24hr', label: 'Response Time' },
+      { value: '98%', label: 'First-Fix Rate' },
+      { value: '1yr', label: 'Warranty' },
+    ],
+  },
+  'emergency-ac-service': {
+    heroImage: '/images/services/emergency-hvac.jpg',
+    beforeAfter: {
+      before: '/images/before-after/storm-before-1.jpg',
+      after: '/images/before-after/storm-after-1.jpg',
+      title: 'Emergency AC Restoration',
+    },
+    features: [
+      '24/7 emergency response',
+      'Rapid 60-90 minute dispatch',
+      'Fully stocked service vehicles',
+      'Temporary cooling solutions available',
+      'All common parts carried on truck',
+      'No overtime fees for plan members',
+    ],
+    testimonial: {
+      quote: 'Our AC died at 11 PM on a Friday night with a houseful of guests. They had a tech here in just over an hour and fixed the compressor issue on the spot. Lifesavers!',
+      name: 'Michael T.',
+      location: 'Pompano Beach, FL',
+    },
+    stats: [
+      { value: '60min', label: 'Avg Response' },
+      { value: '24/7', label: 'Availability' },
+      { value: '95%', label: 'Same-Visit Fix' },
+    ],
+  },
+  'hvac-maintenance': {
+    heroImage: '/images/services/hvac-maintenance.jpg',
+    beforeAfter: {
+      before: '/images/before-after/repair-before-1.jpg',
+      after: '/images/before-after/repair-after-1.jpg',
+      title: 'Professional AC Tune-Up',
+    },
+    features: [
+      'Comprehensive 21-point inspection',
+      'Coil cleaning and refrigerant check',
+      'Electrical testing and tightening',
+      'Condensate drain treatment',
+      'Filter replacement included',
+      'Written system condition report',
+    ],
+    testimonial: {
+      quote: 'Their maintenance plan caught a failing capacitor before it left us without AC in August. The annual tune-up has definitely saved us from emergency repairs.',
+      name: 'David & Lisa R.',
+      location: 'Coconut Creek, FL',
+    },
+    stats: [
+      { value: '15%', label: 'Energy Savings' },
+      { value: '21pt', label: 'Inspection' },
+      { value: '3-5yr', label: 'Life Extension' },
+    ],
+  },
+  'commercial-hvac': {
+    heroImage: '/images/services/commercial-hvac.jpg',
+    beforeAfter: {
+      before: '/images/before-after/commercial-before-1.jpg',
+      after: '/images/before-after/commercial-after-1.jpg',
+      title: 'Commercial HVAC Installation',
+    },
+    features: [
+      'Rooftop unit service and installation',
+      'Minimal business disruption',
+      'Preventive maintenance contracts',
+      'After-hours and weekend service',
+      'Multi-location capabilities',
+      'Building automation integration',
+    ],
+    testimonial: {
+      quote: 'They service all three of our office locations under one contract. Response time is always fast and they work around our business hours. Reliable partner for our company.',
+      name: 'Thompson Properties LLC',
+      location: 'Pompano Beach, FL',
+    },
+    stats: [
+      { value: '200+', label: 'Businesses Served' },
+      { value: '4hr', label: 'Emergency Response' },
+      { value: '0', label: 'Days Downtime' },
+    ],
+  },
+  'duct-cleaning': {
+    heroImage: '/images/services/duct-cleaning.jpg',
+    beforeAfter: {
+      before: '/images/before-after/storm-before-1.jpg',
+      after: '/images/before-after/storm-after-1.jpg',
+      title: 'Professional Duct Cleaning',
+    },
+    features: [
+      'NADCA-recommended source removal method',
+      'Camera inspection before and after',
+      'Supply and return duct cleaning',
+      'Air handler and coil cleaning',
+      'Optional antimicrobial treatment',
+      'Detailed photo documentation',
+    ],
+    testimonial: {
+      quote: 'Had our ducts cleaned after renovations and the difference in air quality was immediate. No more construction dust smell. They even showed us camera footage of the before and after.',
+      name: 'Patricia W.',
+      location: 'Parkland, FL',
+    },
+    stats: [
+      { value: '99%', label: 'Contaminant Removal' },
+      { value: '3-5hr', label: 'Service Time' },
+      { value: '3-5yr', label: 'Recommended Interval' },
+    ],
+  },
+  'thermostat-installation': {
+    heroImage: '/images/services/ac-installation.jpg',
+    beforeAfter: {
+      before: '/images/before-after/repair-before-1.jpg',
+      after: '/images/before-after/repair-after-1.jpg',
+      title: 'Smart Thermostat Upgrade',
+    },
+    features: [
+      'Ecobee, Nest, and Honeywell certified',
+      'Wi-Fi setup and app configuration',
+      'Wiring compatibility assessment',
+      'Optimal placement evaluation',
+      'Schedule programming assistance',
+      'Integration with home automation',
+    ],
+    testimonial: {
+      quote: 'Upgraded to a Nest thermostat and can now control our AC from the office. Energy bills dropped noticeably the first month. Simple upgrade, big impact.',
+      name: 'Angela R.',
+      location: 'Lighthouse Point, FL',
+    },
+    stats: [
+      { value: '23%', label: 'Avg Energy Savings' },
+      { value: '1hr', label: 'Installation Time' },
+      { value: '100%', label: 'Smart Home Ready' },
+    ],
+  },
+  'indoor-air-quality': {
+    heroImage: '/images/services/ac-repair.jpg',
+    beforeAfter: {
+      before: '/images/before-after/repair-before-1.jpg',
+      after: '/images/before-after/repair-after-1.jpg',
+      title: 'Air Quality Improvement',
+    },
+    features: [
+      'Whole-home air purification systems',
+      'UV germicidal light installation',
+      'Advanced MERV and HEPA filtration',
+      'Whole-home dehumidifier installation',
+      'Energy recovery ventilator setup',
+      'Air quality testing and monitoring',
+    ],
+    testimonial: {
+      quote: 'My daughter has asthma and since they installed the air purifier and UV light, her symptoms have improved dramatically. The air in our home feels completely different.',
+      name: 'Carmen L.',
+      location: 'Margate, FL',
+    },
+    stats: [
+      { value: '99.98%', label: 'Particle Removal' },
+      { value: '5x', label: 'Cleaner Air' },
+      { value: '45-55%', label: 'Ideal Humidity' },
+    ],
+  },
+  'heat-pump-services': {
+    heroImage: '/images/services/hvac-maintenance.jpg',
+    beforeAfter: {
+      before: '/images/before-after/replacement-before-1.jpg',
+      after: '/images/before-after/replacement-after-1.jpg',
+      title: 'Heat Pump Installation',
+    },
+    features: [
+      'Air-source and ductless options',
+      'Heating and cooling in one system',
+      '50% lower heating energy costs',
+      'All major brands available',
+      'Proper sizing with load calculations',
+      'Year-round comfort solution',
+    ],
+    testimonial: {
+      quote: 'Switched from our old AC and electric heat strips to a heat pump. Our winter electric bills dropped significantly and the cooling works just as well. Wish we had done it sooner.',
+      name: 'Frank & Diane S.',
+      location: 'Coral Springs, FL',
+    },
+    stats: [
+      { value: '50%', label: 'Heating Savings' },
+      { value: '2-in-1', label: 'Heat + Cool' },
+      { value: '15yr', label: 'Avg Lifespan' },
+    ],
+  },
+  'ac-refrigerant-recharge': {
+    heroImage: '/images/services/ac-repair.jpg',
+    beforeAfter: {
+      before: '/images/before-after/repair-before-1.jpg',
+      after: '/images/before-after/repair-after-1.jpg',
+      title: 'Refrigerant Leak Repair',
+    },
+    features: [
+      'Electronic leak detection equipment',
+      'UV dye and nitrogen pressure testing',
+      'EPA-certified refrigerant handling',
+      'R-410A and R-22 system service',
+      'Precise manufacturer-spec recharge',
+      'Superheat and subcooling verification',
+    ],
+    testimonial: {
+      quote: 'Two other companies just added refrigerant without finding the leak. These guys found a pinhole in the evaporator coil, repaired it, and the system has held charge perfectly for over a year.',
+      name: 'Steve H.',
+      location: 'Pompano Beach, FL',
+    },
+    stats: [
+      { value: '100%', label: 'Leak Found Rate' },
+      { value: 'EPA', label: 'Certified Techs' },
+      { value: '1yr', label: 'Leak Warranty' },
+    ],
+  },
+};
+
+export async function generateStaticParams() {
+  const slugs = getServiceSlugs();
+  return slugs.map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
-  const service = services.find((s) => s.slug === slug);
-  if (!service) return {};
+  const service = await getServiceWithHtml(slug);
+
+  if (!service) {
+    return { title: 'Service Not Found' };
+  }
+
   return {
-    title: `${service.name} | Expert HVAC Service in South Florida`,
-    description: `${service.shortDescription} Trusted ${service.name.toLowerCase()} by ${brand.name} in Boca Raton & Fort Lauderdale. Free estimates, same-day scheduling.`,
+    title: service.metaTitle || `${service.title} | Pompano Beach House AC Repair`,
+    description: service.metaDescription || service.description,
   };
 }
 
-export default async function ServiceDetailPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function ServicePage({ params }: PageProps) {
   const { slug } = await params;
-  const service = services.find((s) => s.slug === slug);
-  if (!service) notFound();
+  const service = await getServiceWithHtml(slug);
 
-  const otherServices = services.filter((s) => s.slug !== slug);
-  const serviceSchema = getServiceSchema(slug);
-  const faqSchema = getFaqSchema(service.faq);
-  const breadcrumbSchema = getBreadcrumbSchema([
-    { label: "Services", href: "/services" },
-    { label: service.name },
-  ]);
+  if (!service) {
+    notFound();
+  }
+
+  const data = serviceData[slug] || serviceData['ac-installation'];
+  const cleanTitle = service.title.replace(/<[^>]*>/g, '').replace(/^#\s*/, '').split('\n')[0];
 
   return (
-    <>
-      <Navbar />
-      <main id="main-content">
-        {/* Service hero with background image */}
-        <section className="relative overflow-hidden border-b-2 border-border pb-16 pt-32 sm:pt-36">
-          <div className="absolute inset-0">
-            <Image
-              src={service.image}
-              alt={service.name}
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/90 to-white/70" />
-          </div>
-          <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <Breadcrumb
-              items={[
-                { label: "Services", href: "/services" },
-                { label: service.name },
-              ]}
-            />
-            <div className="grid gap-10 lg:grid-cols-[1fr_auto]">
-              <div>
-                <div className="flex size-16 items-center justify-center rounded-md bg-primary/10 text-primary backdrop-blur-sm">
-                  {renderServiceIcon(service.icon, "size-7")}
-                </div>
-                <h1 className="mt-6 max-w-3xl font-display text-balance font-semibold tracking-tight text-gray-900">
-                  {service.name}
-                </h1>
-                <p className="mt-4 max-w-2xl text-lg leading-8 text-gray-600">
-                  {service.shortDescription}
-                </p>
-                {/* Inline trust signals */}
-                <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-gray-500">
-                  <span className="flex items-center gap-1.5">
-                    <Star className="size-4 fill-amber-400 text-amber-400" />
-                    <strong className="text-gray-700">{brand.rating}/5</strong> ({brand.reviewCount}+ reviews)
-                  </span>
-                  <span className="hidden h-4 w-px bg-gray-300 sm:block" />
-                  <span className="flex items-center gap-1.5">
-                    <Shield className="size-4 text-primary" />
-                    FL Licensed &amp; Insured
-                  </span>
-                  <span className="hidden h-4 w-px bg-gray-300 sm:block" />
-                  <span>{brand.yearsInBusiness}+ Years Experience</span>
-                </div>
-              </div>
-              <div className="flex flex-col gap-3 lg:pt-10">
-                <Button
-                  render={
-                    <a href={toTel(mainPhone)} className="min-h-12 rounded-md px-6 text-base" />
-                  }
-                  className="rounded-md bg-primary px-6 text-white hover:bg-primary/90"
-                >
-                  <Phone className="size-4" />
-                  Call {mainPhone}
-                </Button>
-                <Button
-                  render={
-                    <Link href="/contact" className="min-h-12 rounded-md px-6 text-base" />
-                  }
-                  variant="outline"
-                  className="rounded-md border-2 border-gray-300 text-gray-700 hover:bg-gray-50"
-                >
-                  Request Free Estimate
-                </Button>
+    <main className="min-h-screen bg-white">
+      {/* Navigation */}
+      <Navigation />
+
+      {/* Hero Section */}
+      <section className="relative bg-slate-900 text-white pt-20">
+        <div className="absolute inset-0">
+          <Image
+            src={data.heroImage}
+            alt={cleanTitle}
+            fill
+            className="object-cover opacity-30"
+            priority
+          />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 py-16 md:py-24">
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-2 text-cyan-600 mb-4">
+              <Star className="w-5 h-5 fill-cyan-600" />
+              <span className="font-semibold">4.9 Rating</span>
+              <span className="text-slate-500">|</span>
+              <span className="text-slate-600">200+ Reviews</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+              {cleanTitle}
+            </h1>
+            <p className="text-xl text-slate-300 mb-8 leading-relaxed">
+              {service.description?.substring(0, 150)}...
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="tel:+19542896718"
+                className="inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-500 text-slate-900 font-bold px-8 py-4 rounded-xl transition shadow-lg"
+              >
+                <Phone className="w-5 h-5" />
+                Get Free Estimate
+              </a>
+              <div className="flex items-center gap-3 text-slate-600">
+                <Clock className="w-5 h-5 text-cyan-600" />
+                <span>Response within 24 hours</span>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="section-shell">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid gap-12 lg:grid-cols-[1fr_380px]">
-              <div className="space-y-10">
-                <div className="space-y-4">
-                  <h2 className="font-display text-2xl font-semibold text-gray-900">
-                    Why choose {brand.name} for {service.name.toLowerCase()}?
-                  </h2>
-                  <p className="text-base leading-8 text-gray-600">
-                    {service.intro}
-                  </p>
-                </div>
-
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900">What you can expect</h3>
-                  <ul className="space-y-3">
-                    {service.benefits.map((item) => (
-                      <li key={item} className="flex items-start gap-3">
-                        <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-accent" />
-                        <span className="text-sm leading-7 text-gray-600">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Our process</h3>
-                  <div className="space-y-6 border-l-2 border-primary/20 pl-6">
-                    {service.process.map((step, i) => (
-                      <div key={step.step} className="relative">
-                        <div className="absolute -left-[calc(1.5rem+1px)] flex size-6 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">
-                          {i + 1}
-                        </div>
-                        <h4 className="font-semibold text-gray-900">{step.step}</h4>
-                        <p className="mt-1 text-sm leading-7 text-gray-600">{step.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Our Experience — E-E-A-T authority signal */}
-                <div className="rounded-md border-2 border-primary/10 bg-primary/[0.03] p-6 space-y-4">
-                  <div className="flex items-center gap-3">
-                    <Award className="size-6 text-primary" />
-                    <h3 className="text-lg font-semibold text-gray-900">Our {service.name} Experience</h3>
-                  </div>
-                  <p className="text-sm leading-7 text-gray-600">
-                    With {brand.yearsInBusiness}+ years of dedicated HVAC service in South Florida, our team has
-                    completed thousands of {service.name.toLowerCase()} jobs across Boca Raton, Fort Lauderdale, and
-                    surrounding communities. Every technician on our crew undergoes rigorous manufacturer training
-                    and holds active NATE certification, ensuring your {service.name.toLowerCase()} is handled by
-                    qualified professionals who understand South Florida&apos;s unique climate demands.
-                  </p>
-                </div>
-
-                {/* Certifications for This Service */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Certifications for {service.name}</h3>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    {[
-                      { cert: "FL HVAC License #CAC1816259", detail: "State-licensed contractor" },
-                      { cert: "EPA Section 608 Certified", detail: "Federal refrigerant handling" },
-                      { cert: "NATE Certified Technicians", detail: "Industry knowledge verified" },
-                      { cert: "Manufacturer Trained", detail: "Carrier, Trane, Lennox authorized" },
-                    ].map(({ cert, detail }) => (
-                      <div key={cert} className="flex items-start gap-3 chief-card rounded-md bg-white p-4">
-                        <Shield className="mt-0.5 size-5 shrink-0 text-primary" />
-                        <div>
-                          <p className="text-sm font-semibold text-gray-900">{cert}</p>
-                          <p className="text-xs text-gray-500">{detail}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Pro Tip Callout */}
-                <div className="rounded-md border-l-4 border-accent bg-accent/10 p-5">
-                  <div className="flex items-center gap-2">
-                    <Lightbulb className="size-5 text-accent" />
-                    <p className="text-sm font-bold text-gray-900">Pro Tip from Our Technicians</p>
-                  </div>
-                  <p className="mt-2 text-sm leading-7 text-gray-600">
-                    {service.slug === "ac-repair"
-                      ? "Before calling for AC repair, check your thermostat batteries and make sure the breaker hasn't tripped. Also inspect your air filter — a clogged filter is the #1 cause of AC problems we see in South Florida homes."
-                      : service.slug === "ac-installation"
-                      ? "When choosing a new AC system, focus on SEER2 rating rather than just tonnage. In South Florida's climate, a higher-efficiency unit pays for itself within 3-5 years through lower electric bills."
-                      : service.slug === "heating-repair"
-                      ? "During Florida's mild winters, run your heat pump in heating mode for 10-15 minutes at least once a month. This keeps the reversing valve from seizing up, which is the most common heating failure we see."
-                      : service.slug === "duct-cleaning-sealing"
-                      ? "After duct cleaning, replace your air filter and run the system for 30 minutes. If you notice musty odors returning within weeks, it may indicate a humidity issue in the duct system that needs sealing."
-                      : service.slug === "maintenance-plans"
-                      ? "Schedule your spring tune-up before April — that's when our books fill up. A pre-season check catches refrigerant leaks and worn capacitors before they become expensive mid-summer emergencies."
-                      : "For any HVAC emergency, turn off your system at the thermostat immediately if you smell burning or see sparking. This prevents further damage and keeps your family safe until our crew arrives."}
-                  </p>
-                </div>
-
-                {/* Related Resources — internal linking */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Related Resources</h3>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    {otherServices.slice(0, 4).map((s) => (
-                      <Link
-                        key={s.slug}
-                        href={`/services/${s.slug}`}
-                        className="chief-card group flex items-center justify-between rounded-md bg-white p-4 transition hover:border-primary/30"
-                      >
-                        <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900">{s.name}</span>
-                        <ArrowRight className="size-4 text-gray-400 transition group-hover:text-primary" />
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Available in these cities</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {locations.map((loc) => (
-                      <Link
-                        key={loc.slug}
-                        href={`/locations/${loc.slug}`}
-                        className="chief-card rounded-md bg-white px-3 py-2 text-sm text-gray-600 transition hover:border-primary/30 hover:text-primary"
-                      >
-                        {loc.city}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Frequently asked questions</h3>
-                  <div className="space-y-4">
-                    {service.faq.map((item) => (
-                      <div key={item.question} className="chief-card rounded-md bg-white p-5">
-                        <h4 className="font-semibold text-gray-900">{item.question}</h4>
-                        <p className="mt-2 text-sm leading-7 text-gray-600">{item.answer}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <aside className="space-y-6">
-                <div className="chief-card rounded-md bg-secondary p-6">
-                  <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary">
-                    Quick Facts
-                  </p>
-                  <dl className="mt-4 space-y-4">
-                    {[
-                      { label: "Experience", value: `${brand.yearsInBusiness}+ years` },
-                      { label: "Rating", value: `${brand.rating}/5 (${brand.reviewCount}+ reviews)` },
-                      { label: "Licensing", value: brand.license },
-                      { label: "Coverage", value: brand.insurance },
-                      { label: "Hours", value: brand.hours },
-                    ].map(({ label, value }) => (
-                      <div key={label} className="border-b border-border pb-3 last:border-0 last:pb-0">
-                        <dt className="text-xs uppercase tracking-[0.2em] text-gray-500">{label}</dt>
-                        <dd className="mt-1 text-sm font-medium text-gray-700">{value}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-
-                <div className="chief-card rounded-md border-2 border-primary/20 bg-primary/[0.04] p-6">
-                  <p className="text-lg font-semibold text-gray-900">Need {service.name.toLowerCase()}?</p>
-                  <p className="mt-2 text-sm leading-7 text-gray-600">
-                    Deploy a technician today — same-day service available across South Florida.
-                  </p>
-                  <a
-                    href={toTel(mainPhone)}
-                    aria-label={`Call ${mainPhone} for ${service.name.toLowerCase()}`}
-                    className="mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-md bg-accent text-sm font-bold text-gray-900 transition hover:bg-accent/90"
-                  >
-                    <Phone className="size-4" aria-hidden="true" />
-                    Call {mainPhone}
-                  </a>
-                  <a
-                    href="/contact"
-                    className="mt-2 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-md border-2 border-primary/30 bg-white text-sm font-medium text-gray-900 transition hover:border-primary/50 hover:bg-primary/[0.03]"
-                  >
-                    Request Your Chief Online
-                  </a>
-                </div>
-              </aside>
+      {/* Trust Bar */}
+      <section className="bg-slate-100 py-6 border-b">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+            <div className="flex items-center gap-2">
+              <Shield className="w-6 h-6 text-green-600" />
+              <span className="font-semibold text-slate-700">Licensed & Insured</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Award className="w-6 h-6 text-cyan-700" />
+              <span className="font-semibold text-slate-700">20+ Years Experience</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Users className="w-6 h-6 text-blue-600" />
+              <span className="font-semibold text-slate-700">500+ Happy Customers</span>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {otherServices.length > 0 && (
-          <section className="section-shell border-t-2 border-border bg-secondary">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-              <h2 className="font-display text-2xl font-semibold text-gray-900">
-                Other services we offer
+      {/* Before/After Section */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              See The Transformation
+            </h2>
+            <p className="text-xl text-slate-600">
+              Real results from our recent {cleanTitle.toLowerCase()} projects
+            </p>
+          </div>
+          <BeforeAfterSlider
+            before={data.beforeAfter.before}
+            after={data.beforeAfter.after}
+            title={data.beforeAfter.title}
+          />
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-12 bg-white text-slate-900">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="grid grid-cols-3 gap-8">
+            {data.stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-3xl md:text-5xl font-bold text-cyan-600 mb-2">
+                  {stat.value}
+                </div>
+                <div className="text-slate-500 uppercase text-sm tracking-wide">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features + CTA Section */}
+      <section className="py-16 md:py-24 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Features */}
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8">
+                What&apos;s Included
               </h2>
-              <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {otherServices.map((s) => {
-                  const Icon = getServiceIcon(s.icon);
-                  return (
-                    <Link
-                      key={s.slug}
-                      href={`/services/${s.slug}`}
-                      className="chief-card group flex items-center gap-4 rounded-md bg-white p-4 transition hover:border-primary/30"
-                    >
-                      <div className="flex size-10 items-center justify-center rounded-md bg-primary/10 text-primary">
-                        <Icon className="size-5" />
-                      </div>
-                      <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
-                        {s.name}
-                      </span>
-                    </Link>
-                  );
-                })}
+              <div className="space-y-4">
+                {data.features.map((feature, index) => (
+                  <div key={index} className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-lg text-slate-700">{feature}</span>
+                  </div>
+                ))}
               </div>
             </div>
-          </section>
-        )}
 
-        <CtaSection />
-      </main>
+            {/* CTA Card */}
+            <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-10">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">
+                  Get Your Free Quote
+                </h3>
+                <p className="text-slate-600">
+                  No obligation. Fast response guaranteed.
+                </p>
+              </div>
+              <form className="space-y-4">
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  className="w-full px-4 py-4 rounded-xl border-2 border-slate-200 focus:border-cyan-600 focus:outline-none transition text-lg"
+                />
+                <input
+                  type="tel"
+                  placeholder="Phone Number"
+                  className="w-full px-4 py-4 rounded-xl border-2 border-slate-200 focus:border-cyan-600 focus:outline-none transition text-lg"
+                />
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  className="w-full px-4 py-4 rounded-xl border-2 border-slate-200 focus:border-cyan-600 focus:outline-none transition text-lg"
+                />
+                <button
+                  type="submit"
+                  className="w-full bg-cyan-600 hover:bg-cyan-500 text-slate-900 font-bold py-4 rounded-xl transition text-lg flex items-center justify-center gap-2"
+                >
+                  Get My Free Quote
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              </form>
+              <div className="mt-6 text-center">
+                <p className="text-slate-500 text-sm">
+                  Or call us directly
+                </p>
+                <a href="tel:+19542896718" className="text-2xl font-bold text-slate-900 hover:text-cyan-700 transition">
+                  (954) 289-6718
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonial Section */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              What Our Customers Say
+            </h2>
+          </div>
+          <TestimonialCard
+            quote={data.testimonial.quote}
+            name={data.testimonial.name}
+            location={data.testimonial.location}
+          />
+        </div>
+      </section>
+
+      {/* Content Section - Streamlined */}
+      <section className="py-16 bg-slate-50">
+        <div className="max-w-4xl mx-auto px-4">
+          <div
+            className="prose prose-lg max-w-none
+              prose-headings:text-slate-900 prose-headings:font-bold
+              prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4
+              prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-3
+              prose-p:text-slate-600 prose-p:leading-relaxed
+              prose-a:text-cyan-700 prose-a:no-underline hover:prose-a:underline
+              prose-strong:text-slate-900
+              prose-ul:text-slate-600
+              prose-li:marker:text-cyan-600
+            "
+            dangerouslySetInnerHTML={{ __html: service.htmlContent || '' }}
+          />
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-4xl mx-auto px-4">
+          <InlineCTA
+            title="Ready to Get Started?"
+            subtitle="Schedule your free inspection today. No obligation."
+            variant="primary"
+          />
+        </div>
+      </section>
+
+      {/* Footer */}
       <Footer />
-      <MobileCallBar />
-      {serviceSchema && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-        />
-      )}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-    </>
+    </main>
   );
 }
