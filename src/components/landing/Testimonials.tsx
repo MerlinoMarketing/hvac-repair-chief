@@ -68,7 +68,7 @@ export function Testimonials() {
             What Our Customers Say
           </h2>
           <p className="text-xl text-slate-600">
-            Don't just take our word for it - hear from homeowners who trusted us with their HVAC systems.
+            Don&apos;t just take our word for it - hear from homeowners who trusted us with their HVAC systems.
           </p>
         </div>
 
@@ -105,7 +105,7 @@ export function Testimonials() {
 
                 {/* Quote */}
                 <p className="text-slate-600 leading-relaxed mb-6 relative z-10">
-                  "{testimonial.quote}"
+                  &quot;{testimonial.quote}&quot;
                 </p>
 
                 {/* Project Type */}
